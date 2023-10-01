@@ -34,7 +34,7 @@
                     <input
                         type="password"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
-                        placeholder="Escribe el nombre de la clase"
+                        placeholder="Contraseña del usuario"
                     />
 
                     <label for="input" class="block text-gray-700 font-bold mb-2">Rol(*):</label>
@@ -44,7 +44,12 @@
                         <option value="opcion2">Alumno</option>
                         <option value="opcion3">Administrador</option>
                     </select>
-                    
+                    <label for="input" class="block text-gray-700 font-bold mb-2">Serial(*):</label>
+                    <input
+                        type="text"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
+                        placeholder="Serial de Usuario"
+                    />
 
                     <div class="flex space-x-3 text-sm pt-2 font-medium">
                         <button
