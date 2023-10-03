@@ -32,6 +32,15 @@
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
                         placeholder="Apellido del usuario"
                     />
+                    <label for="input" class="block text-gray-700 font-bold mb-2">Día de la semana(*):</label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300">
+                        <!-- Opciones del select -->
+                        <option value="Lunes">Lunes</option>
+                        <option value="Martes">Martes</option>
+                        <option value="Miércoles">Miércoles</option>
+                        <option value="Jueves">Jueves</option>
+                        <option value="Viernes">Viernes</option>
+                    </select>
                     
                     <div class="flex space-x-3 text-sm pt-2 font-medium">
                         <button
