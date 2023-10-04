@@ -38,20 +38,24 @@ Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Ruta a la vista de usuarios
-Route::get('/form-usuarios', [DashboardController::class, 'users'])->name('form-usuarios');
+Route::get('/form-usuarios', [DashboardController::class, 'users'])->name('form-usuario');
 
 // Ruta a la vista de clases
-Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clases');
+Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clase');
 
 // Ruta a la vista de horarios
-Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horarios');
+Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horario');
 
 
 
 // Ruta para la tabla de clase
-Route::get('/tabla-clase', [TablesController::class, 'classes'])->name('tabla-clase');
+Route::get('/tabla-clase', [TablesController::class, 'classes'])->name('tabla-clases');
 
+// Ruta para la tabla de usuarios
+Route::get('/tabla-usuarios', [TablesController::class, 'users'])->name('tabla-usuarios');
 
+// Ruta para la tabla de horarios
+Route::get('/tabla-horarios', [TablesController::class, 'horarios'])->name('tabla-horarios');
 
 
 Route::get('/test', [LoginController::class, 'prueba'])->name('test');
