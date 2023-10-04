@@ -13,11 +13,9 @@ return new class extends Migration
     {
         
         Schema::create('profesores', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_user');
-            $table->unsignedBigInteger('id_horario');
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_horario')->references('id')->on('horarios');
+            $table->id('ID_Profesor');
+            $table->unsignedBigInteger('horario');
+            $table->foreign('ID_profesor')->references('id')->on('users');
             $table->timestamps();
         });
 

@@ -12,13 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('asistencias', function (Blueprint $table) {
-            $table->id();
+            $table->id('ID_Asistencias');
             $table->timestamps();
+            $table->date('Fecha');
 
-            $table->unsignedBigInteger('id_clase');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_clase')->references('id')->on('clases');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->unsignedBigInteger('ID_Relacion');
+            $table->unsignedBigInteger('ID_Materia');
+            $table->unsignedBigInteger('ID_Alumno');
+            $table->unsignedBigInteger('ID_Profesor');
+
+            $table->foreign('ID_Relacion')->references('id')->on('relacion_alumno_materia_profesor');
+            $table->foreign('ID_Materia')->references('id')->on('materias');
+            $table->foreign('ID_Alumno')->references('id')->on('alumnos');
+            $table->foreign('ID_Profesor')->references('id')->on('profesores');
+            
         });
     }
 

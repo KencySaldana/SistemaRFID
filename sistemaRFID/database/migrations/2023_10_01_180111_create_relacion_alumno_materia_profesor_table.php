@@ -11,22 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('horarios', function (Blueprint $table) {
-            $table->id('ID_Horario');
-            $table->timestamps();
-            
-            $table->string('dia');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
-
-
-            $table->unsignedBigInteger('ID_Profesor');
+        Schema::create('relacion_alumno_materia_profesor', function (Blueprint $table) {
+            $table->id('ID_Relacion');
+            $table->unsignedBigInteger('ID_Alumno');
             $table->unsignedBigInteger('ID_Materia');
+            $table->unsignedBigInteger('ID_Profesor');
+            $table->timestamps();
 
-            
+            $table->foreign('ID_Alumno')->references('id')->on('alumnos');
             $table->foreign('ID_Profesor')->references('id')->on('profesores');
             $table->foreign('ID_Materia')->references('id')->on('materias');
-
         });
     }
 
@@ -35,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('horarios');
+        Schema::dropIfExists('relacion_alumno_materia_profesor');
     }
 };

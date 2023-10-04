@@ -18,30 +18,20 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'lastname',
-        'username',
-        'password',
+        'nombre',
+        'apellido',
         'rol',
-        'serial',
+        'numero_tarjeta_rfid',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    //agregamos relacion uno a uno con profesores
+    public function profesores(){
+        return $this->hasOne(Profesor::class);
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'password' => 'hashed',
-    ];
+    //agregamos relacion uno a uno con alumnos  
+    public function alumnos(){
+        return $this->hasOne(Alumno::class);
+    }
+    
 }

@@ -8,17 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Horario extends Model
 {
     use HasFactory;
-    
+    //definimos la tabla a la que hace referencia este modelo
     protected $fillable = [
-        'id_clase',
+        'ID_Horario',
+        'dia',
         'hora_inicio',
-        'hora_final',
+        'hora_fin',
     ];
-    
-    public function clase()
-    {
-        return $this->belongsTo(Clase::class, 'id_clase');
+
+    //agregamos la relacion muchos a uno con la tabla materias
+    public function materias(){
+        return $this->belongsTo(Materia::class);
+    }
+
+    //agregamos la relacion muchos a uno con la tabla profesores
+    public function profesores(){
+        return $this->belongsTo(Profesor::class);
     }
 }
-
-
