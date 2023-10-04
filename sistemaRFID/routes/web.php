@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\CerrarSessionController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,34 +18,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Ruta principal
+Route::get('/', [LoginController::class, 'index'])->name('login');
+// Ruta para iniciar sesión
+Route::post('/iniciar-sesion', [LoginController::class, 'login'])->name('login-iniciar-sesion');
 
-Route::get('/register', function () {
-    return view('auth.register');
-});
+// Ruta para registrar un usuario
+Route::get('/registrar', [RegisterController::class, 'index'])->name('sign-up');
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::post('/registrar-usario', [RegisterController::class, 'registrar'])->name('sign-up-registrar');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
 
-Route::get('/tableClase', function () {
-    return view('tableClase');
-});
+// Ruta para cerrar sesión
+Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->name('cerrar-sesion');
 
-Route::get('/formClase', function () {
-    return view('formClase');
-});
 
-Route::get('/formUser', function () {
-    return view('formUser');
-});
 
-Route::get('/formHorario', function () {
-    return view('formHorario');
-});
+// Ruta al dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+// Ruta a la vista de usuarios
+Route::get('/form-usuarios', [DashboardController::class, 'users'])->name('form-usuarios');
+
+// Ruta a la vista de clases
+Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clases');
+
+// Ruta a la vista de horarios
+Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horarios');
+
+
+
+// Ruta para la tabla de clase
+Route::get('/tabla-clase', [TablesController::class, 'classes'])->name('tabla-clase');
+
+
+
+
+Route::get('/test', [LoginController::class, 'prueba'])->name('test');

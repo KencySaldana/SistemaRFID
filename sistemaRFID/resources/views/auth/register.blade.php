@@ -30,7 +30,7 @@
                     <span class="w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">in</span>
                 </div>
                 
-                <form action = "{{route ('register')}}" method="POST" novalidate class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                <form action = "{{route ('sign-up-registrar')}}" method="POST" novalidate class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                     <!--Directiva para evitar ataques, genera un token que indentifica el registro-->
                     @csrf
                     <div class="pb-2 pt-4">
