@@ -16,18 +16,4 @@ class RelacionAlumnoMateriaProfesor extends Model
         'ID_Profesor',
     ];
 
-    //agregamos la relacion muchos a uno con la tabla materias
-    public function materias(){
-        return $this->belongsTo(Materia::class);
-    }
-
-    //agregamos la relacion muchos a uno con la tabla profesores
-    public function profesores(){
-        return $this->belongsTo(Profesor::class);
-    }
-
-    //agregamos la relacion muchos a uno con la tabla alumnos
-    public function alumnos(){
-        return $this->belongsTo(Alumno::class);
-    }
 }

@@ -10,19 +10,11 @@ class Horario extends Model
     use HasFactory;
     //definimos la tabla a la que hace referencia este modelo
     protected $fillable = [
-        'ID_Horario',
         'dia',
         'hora_inicio',
         'hora_fin',
+        'id_materia',
+        'id_profesor'
     ];
 
-    //agregamos la relacion muchos a uno con la tabla materias
-    public function materias(){
-        return $this->belongsTo(Materia::class);
-    }
-
-    //agregamos la relacion muchos a uno con la tabla profesores
-    public function profesores(){
-        return $this->belongsTo(Profesor::class);
-    }
 }

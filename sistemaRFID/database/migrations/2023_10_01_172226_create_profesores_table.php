@@ -13,12 +13,12 @@ return new class extends Migration
     {
         
         Schema::create('profesores', function (Blueprint $table) {
-            $table->id('ID_Profesor');
-            $table->unsignedBigInteger('horario');
-            $table->foreign('ID_profesor')->references('id')->on('users');
-            $table->timestamps();
-        });
+            $table->id('id_profesor');
+            $table->string('id_horario');
+            $table->string('profesor_matricula');
+            $table->string('profesor_passsword');
 
+        });
         
     }
 

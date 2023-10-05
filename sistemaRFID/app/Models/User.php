@@ -22,16 +22,8 @@ class User extends Authenticatable
         'apellido',
         'rol',
         'numero_tarjeta_rfid',
+        'username',
+        'password',
     ];
-
-    //agregamos relacion uno a uno con profesores
-    public function profesores(){
-        return $this->hasOne(Profesor::class);
-    }
-
-    //agregamos relacion uno a uno con alumnos  
-    public function alumnos(){
-        return $this->hasOne(Alumno::class);
-    }
     
 }

@@ -28,7 +28,6 @@ Route::get('/registrar', [RegisterController::class, 'index'])->name('sign-up');
 
 Route::post('/registrar-usario', [RegisterController::class, 'registrar'])->name('sign-up-registrar');
 
-
 // Ruta para cerrar sesión
 Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->name('cerrar-sesion');
 
@@ -46,8 +45,6 @@ Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-
 // Ruta a la vista de horarios
 Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horario');
 
-
-
 // Ruta para la tabla de clase
 Route::get('/tabla-clase', [TablesController::class, 'classes'])->name('tabla-clases');
 
@@ -58,4 +55,16 @@ Route::get('/tabla-usuarios', [TablesController::class, 'users'])->name('tabla-u
 Route::get('/tabla-horarios', [TablesController::class, 'horarios'])->name('tabla-horarios');
 
 
-Route::get('/test', [LoginController::class, 'prueba'])->name('test');
+
+
+
+
+
+//Ruta para la vista de asistencias
+// Route::get('/asistencias',[LoginController::class,'asistencias'])->name('asistencias');
+// Ruta para la asistencia por medio de rfid
+Route::post('/activacion', [LoginController::class, 'activacion'])->name('activacion');
+// Ruta para la asitencia por medio de teclado
+Route::post('/asistencia', [LoginController::class, 'asistencia'])->name('asistencia');
+
+Route::post('/test', [LoginController::class, 'prueba'])->name('test');

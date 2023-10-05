@@ -12,20 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('horarios', function (Blueprint $table) {
-            $table->id('ID_Horario');
-            $table->timestamps();
-            
+            $table->id('id_horario');
             $table->string('dia');
             $table->time('hora_inicio');
             $table->time('hora_fin');
+            $table->string('id_materia');
+            $table->string('id_profesor');
 
-
-            $table->unsignedBigInteger('ID_Profesor');
-            $table->unsignedBigInteger('ID_Materia');
+            // $table->unsignedBigInteger('ID_Profesor');
+            // $table->unsignedBigInteger('ID_Materia');
 
             
-            $table->foreign('ID_Profesor')->references('id')->on('profesores');
-            $table->foreign('ID_Materia')->references('id')->on('materias');
+            // $table->foreign('ID_Profesor')->references('id')->on('profesores');
+            // $table->foreign('ID_Materia')->references('id')->on('materias');
 
         });
     }
