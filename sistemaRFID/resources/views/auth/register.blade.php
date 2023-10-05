@@ -3,7 +3,7 @@
         <div class="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center" style="background-image: url(https://th.bing.com/th/id/R.052efb206832a741c643f454dbf7bb33?rik=KiMU2eCGdFov1A&riu=http%3a%2f%2fwww.letsbegamechangers.com%2fwp-content%2fuploads%2f2020%2f02%2fGettyImages-1160738322-c067919304c44e6a8a67bd54d49681aa.jpg&ehk=MuiqkuUGsoei2TFKptsTK%2fKqWAGAmBdnyq6%2f4Mpw%2fNc%3d&risl=&pid=ImgRaw&r=0);">
             <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
             <div class="w-full px-24 z-10">
-                <h1 class="text-5xl font-bold text-left tracking-wide">Tus facturas</h1>
+                <h1 class="text-5xl font-bold text-left tracking-wide">Tú información</h1>
                 <p class="text-3xl my-4">en un sólo lugar.</p>
             </div>
             <div class="bottom-0 absolute p-4 text-center right-0 left-0 flex justify-center space-x-4">
@@ -34,10 +34,13 @@
                     <!--Directiva para evitar ataques, genera un token que indentifica el registro-->
                     @csrf
                     <div class="pb-2 pt-4">
-                        <input type="text" name="name" id="name" placeholder="Nombre" class="block w-full p-4 text-lg rounded-sm bg-black">
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre" class="block w-full p-4 text-lg rounded-sm bg-black">
                     </div>
                     <div class="pb-2 pt-4">
-                        <input type="email" name="email" id="email" placeholder="Email" class="block w-full p-4 text-lg rounded-sm bg-black">
+                        <input type="text" name="apellido" id="apellido" placeholder="Apellido" class="block w-full p-4 text-lg rounded-sm bg-black">
+                    </div>
+                    <div class="pb-2 pt-4">
+                        <input type="email" name="username" id="username" placeholder="Username" class="block w-full p-4 text-lg rounded-sm bg-black">
                     </div>
                     <div class="pb-2 pt-4">
                         <input class="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password">

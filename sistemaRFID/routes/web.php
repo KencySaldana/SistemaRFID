@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\CerrarSessionController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\TablesController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TablesController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CerrarSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,7 @@ Route::post('/iniciar-sesion', [LoginController::class, 'login'])->name('login-i
 // Ruta para registrar un usuario
 Route::get('/registrar', [RegisterController::class, 'index'])->name('sign-up');
 
-Route::post('/registrar-usario', [RegisterController::class, 'registrar'])->name('sign-up-registrar');
+Route::post('/registrar-usuario', [RegisterController::class, 'registrar'])->name('sign-up-registrar');
 
 // Ruta para cerrar sesión
 Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->name('cerrar-sesion');
@@ -37,7 +38,7 @@ Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Ruta a la vista de usuarios
-Route::get('/form-usuarios', [DashboardController::class, 'users'])->name('form-usuario');
+Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
 
 // Ruta a la vista de clases
 Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clase');

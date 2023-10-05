@@ -19,6 +19,11 @@
             <p class="text-gray-100 text-lg">
                 Inicia sesión
             </p>
+            @if(session('errors'))
+    <div class="alert alert-danger">
+        {{ session('errors') }}
+    </div>
+@endif
             <form method="POST" action="{{ route('login-iniciar-sesion') }}" novalidate class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                 <!--Directiva para evitar ataques, genera un token que indentifica el registro-->
                 @csrf

@@ -6,17 +6,19 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        // Para verificar que el user este autenticado
+        // except() es para indicar cuales metodos pueden usarse sin autenticarse
+        $this->middleware('auth');
+    }
+
     // Metodo para dirigir a la vista de login
     public function index()
     {
         return view('dashboard');   
     }
 
-    // Metodo para la vista de usuarios
-    public function users()
-    {
-        return view('formUser');   
-    }
 
     // Metodo para la vista de clases
     public function classes()

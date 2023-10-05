@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Profesor;
 use Illuminate\Http\Request;
 
@@ -16,27 +17,21 @@ class LoginController extends Controller
     // Metodo para iniciar sesión
     public function login(Request $request)
     {
-        try{
-            // dd($request->all());
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
-            // Validar los datos del formulario
-            // $request->validate([
-            //     'username' => 'required|min:6|max:50',
-            //     'password' => 'required|6|12'
-            // ]);
-
-            // // dd('luego de validar los datos');
-    
-            // // Autenticar al usuario
-            // if (auth()->attempt($request->only('username', 'password'))) {
-            //     // Redireccionar al dashboard
-            //     return redirect()->route('dashboard');
-            // }
-            return redirect()->route('dashboard');
-    
-        }catch(\Exception $e){
-            return back()->with('error', 'Las credenciales ingresadas no son correctas');
+        // Condicion para saber si el user se pudo autenticar
+        if (!auth()->attempt($request->only('username', 'password'), $request->remember)) {
+            // back() para volver a la pagina anterior, en este caso, con un mensaje
+            return back()->with('errors', 'Credenciales Incorrectas');
         }
+
+        $rol= User::where('username',$request->username)->select('rol')->first();
+
+        // Redirecciona
+        return redirect()->route('dashboard',['rol'=>$rol]);
     }
 
     // Metodo de prueba
