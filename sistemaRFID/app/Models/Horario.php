@@ -13,8 +13,11 @@ class Horario extends Model
         'dia',
         'hora_inicio',
         'hora_fin',
-        'id_materia',
-        'id_profesor'
+        'materia_id',
     ];
+
+    public function profesores() {
+        return $this->belongsToMany(Profesor::class, 'profesor_horario', 'horario_id', 'profesor_id');
+    }
 
 }

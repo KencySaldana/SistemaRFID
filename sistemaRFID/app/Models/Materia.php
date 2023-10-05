@@ -13,4 +13,12 @@ class Materia extends Model
         'nombre',
     ];
 
+    public function asistencias() {
+        return $this->belongsToMany(Asistencia::class, 'asistencia_materia', 'materia_id', 'asistencia_id');
+    }
+    
+    public function alumnos() {
+        return $this->belongsToMany(Alumno::class, 'materia_alumno', 'materia_id', 'alumno_id');
+    }
+
 }

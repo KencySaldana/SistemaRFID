@@ -25,5 +25,15 @@ class User extends Authenticatable
         'username',
         'password',
     ];
+
+    //Relaciones de eloquent para las tablas Alumnos y profesores
+    public function alumno() {
+        return $this->hasOne(Alumno::class, 'user_id');
+    }
+
+    public function profesor() {
+        return $this->hasOne(Profesor::class, 'user_id');
+    }
     
+
 }
