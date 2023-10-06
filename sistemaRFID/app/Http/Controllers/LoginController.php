@@ -43,6 +43,10 @@ class LoginController extends Controller
         }
 
         $rol = User::where('username', $request->username)->select('rol')->first();
+        
+    
+        
+        
 
         // Redirecciona
         return redirect()->route('dashboard', ['rol' => $rol]);
@@ -80,29 +84,37 @@ class LoginController extends Controller
                         ->first();
                     if ($horario) {
                         return $horario->materia_id;
+                    } else {
+                        return response()->json(['error' => 'No tienes clase'], 400);
                     }
+                } else {
+                    return response()->json(['error' => 'No eres profesor'], 400);
                 }
             } else {
                 return response()->json(['error' => 'El profesor no existe'], 400);
             }
-        }else{
+        } else {
             $usuario = User::where('username', $matricula_id)
                 ->where('rol', 2)
                 ->first();
-                if ($usuario) {
-                    $profesor = Profesor::where('user_id', $usuario->id)->first();
-                    if ($profesor) {
-                        $horario = Horario::where('profesor_id', $profesor->id)
-                            ->whereTime('hora_inicio', '<=', $horaActualMonterrey)
-                            ->whereTime('hora_fin', '>=', $horaActualMonterrey)
-                            ->first();
-                        if ($horario) {
-                            return $horario->materia_id;
-                        }
+            if ($usuario) {
+                $profesor = Profesor::where('user_id', $usuario->id)->first();
+                if ($profesor) {
+                    $horario = Horario::where('profesor_id', $profesor->id)
+                        ->whereTime('hora_inicio', '<=', $horaActualMonterrey)
+                        ->whereTime('hora_fin', '>=', $horaActualMonterrey)
+                        ->first();
+                    if ($horario) {
+                        return $horario->materia_id;
+                    } else {
+                        return response()->json(['error' => 'No tienes clase'], 400);
                     }
                 } else {
-                    return response()->json(['error' => 'El profesor no existe'], 400);
+                    return response()->json(['error' => 'No eres profesor'], 400);
                 }
+            } else {
+                return response()->json(['error' => 'El profesor no existe'], 400);
+            }
         }
     }
 
@@ -121,42 +133,51 @@ class LoginController extends Controller
         $horaActualMonterrey = date('H:i:s');
         $fechaActualMonterrey = date('Y-m-d');
 
-
-
-        $usuario = User::where('numero_tarjeta_rfid', $request->UID)
-        ->where('rol', 3)
-        ->first();
-        if($usuario){
+        if($request->UID){
+            $usuario = User::where('numero_tarjeta_rfid', $request->UID)
+            ->where('rol', 3)
+            ->first();
+        }else{
+            $usuario = User::where('username', $request->MATRICULA)
+            ->where('rol', 3)
+            ->first();
+        }
+        if ($usuario) {
             $alumno = Alumno::where('user_id', $usuario->id)->first();
-            if($alumno){
+            if ($alumno) {
                 $materiaAlumno = MateriaAlumno::where('alumno_id', $alumno->id)
-                ->where('materia_id', $id_de_clase)->first();
-                
-                if($materiaAlumno){
+                    ->where('materia_id', $id_de_clase)->first();
+
+                if ($materiaAlumno) {
+
+
                     $asistencia = new Asistencia();
                     $asistencia->fecha = $fechaActualMonterrey;
                     $asistencia->hora = $horaActualMonterrey;
+                    $asistencia->alumno_id = $alumno->id;
+                    $asistencia->asistencia = 1;
+                    $asistencia->materia_id = $id_de_clase;
                     $asistencia->save();
 
-                    $asistenciaAlumnos=new AsistenciaAlumno();
-                    $asistenciaAlumnos->asistencia_id=$asistencia->id;
-                    $asistenciaAlumnos->alumno_id=$alumno->id;
-                    $asistenciaAlumnos->save();
-
-                    $asistenciaMateria=new AsistenciaMateria();
-                    $asistenciaMateria->asistencia_id=$asistencia->id;
-                    $asistenciaMateria->materia_id=$id_de_clase;
-                    $asistenciaMateria->save();
-
                     return "Asistencia registrada";
+                } else {
+                    return response()->json(['error' => 'Clase incorrecta'], 400);
                 }
+            } else {
+                return response()->json(['error' => 'No eres alumno'], 400);
             }
-        }else{
-            return response()->json(['error' => 'El alumno no existe'], 400);
+        } else {
+            return response()->json(['error' => 'Alumno no existe'], 400);
         }
 
 
 
         return ($id_de_clase . " " . $alumno_rfid_id . " " . $alumno_matricula_id . " " . $alumno_password);
     }
+
+    
+
 }
+
+
+

@@ -41,7 +41,43 @@ class HorarioController extends Controller
 
 
         return redirect()->route('horarios')->with('success','El horario fue creado correctamente');
+    }
 
+    // ------------------ METODOS PARA EDITAR HORARIOS ------------------
+    // Metodo para editar horario
+    public function edit($id){
+        $horario = Horario::find($id);
+        $materias = Materia::all();
+        $profesores = Profesor::all();
+        return view('horarios.editHorario',['horario'=>$horario,'materias'=>$materias,'profesores'=>$profesores]);
+    }
 
+    // Metodo para hacer un update horario
+    public function update(Request $request, $id){
+        //Validaciones de formularios
+        $this->validate($request, [
+            'materia' => 'required',
+            'profesor' => 'required',
+            'hora_final' => 'required',
+            'hora_inicio' => 'required',
+            'dia'=>'required',
+        ]);
+
+        $horario = Horario::find($id);
+        $horario->materia_id = $request->materia;
+        $horario->dia = $request->dia;
+        $horario->hora_fin = $request->hora_final;
+        $horario->hora_inicio = $request->hora_inicio;
+        $horario->profesor_id = $request->profesor;
+        $horario->save();
+
+        return redirect()->route('horarios')->with('success','El horario fue actualizado correctamente');
+    }
+
+    // Metodo para eliminar 
+    public function destroy($id){
+        $horario = Horario::find($id);
+        $horario->delete();
+        return redirect()->route('horarios')->with('success','El horario fue eliminado correctamente');
     }
 }

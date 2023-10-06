@@ -22,11 +22,11 @@ class Alumno extends Model
     //Relacion de alumnos con asistencias
     public function asistencias()
     {
-        return $this->belongsToMany(Asistencia::class, 'asistencia_alumno', 'alumno_id', 'asistencia_id');
+        return $this->belongsToMany(Asistencia::class, 'asistencia_id');
     }
 
     public function materias()
     {
-        return $this->belongsToMany(Materia::class, 'materia_alumno', 'alumno_id', 'materia_id');
+        return $this->belongsToMany(Materia::class, 'materia_id');
     }
 }

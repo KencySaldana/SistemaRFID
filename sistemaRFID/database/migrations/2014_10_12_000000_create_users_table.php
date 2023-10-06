@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->tinyInteger('rol');
-            $table->integer('numero_tarjeta_rfid')->default(0);
+            $table->string('numero_tarjeta_rfid')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             $table->rememberToken();
