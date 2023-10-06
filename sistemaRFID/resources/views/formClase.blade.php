@@ -26,10 +26,17 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
                                 multiple>
                                 @foreach ($alumnos as $alumno)
-                                    <option value="{{ $alumno->id }}">{{ $alumno->nombre }}</option>
+                                    <option value="{{ $alumno->id }}">{{ $alumno->user->nombre }}</option>
                                 @endforeach
                             </select>
-
+                            <label for="input" class="block text-gray-700 font-bold mb-2">Fecha inicio:</label>
+                            <input name="fecha_inicio" id="materia" type="date"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
+                                placeholder="Escribe el nombre de la clase" />
+                            <label for="input" class="block text-gray-700 font-bold mb-2">Fecha cierre:</label>
+                            <input name="fecha_fin" id="materia" type="date"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
+                                placeholder="Escribe el nombre de la clase" />
                             <div class="flex space-x-3 text-sm pt-2 font-medium justify-end">
                                 <button
                                     class="mb-2 md:mb-0 bg-gray-900 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-gray-800"

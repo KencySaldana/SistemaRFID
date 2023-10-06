@@ -10,6 +10,8 @@ use App\Http\Controllers\CerrarSessionController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\AsistenciasController;
+use App\Models\Asistencia;
 use App\Models\User;
 
 /*
@@ -51,9 +53,11 @@ Route::post('/addUser',[UserController::class, 'store']);
 Route::get('/horarios',[HorarioController::class,'index'])->name('horarios');
 Route::get('/addHorarios',[HorarioController::class,'create'])->name('horarios.create');
 Route::post('/addHorarios',[HorarioController::class,'store']);
-
+Route::get('/editHorarios/{id}',[HorarioController::class,'edit'])->name('horarios.edit');
+Route::delete('/horarios/{id}',[HorarioController::class,'destroy'])->name('horarios.destroy');
 
 // Ruta a la vista de clases
+Route::get('/clases', [ClaseController::class, 'index'])->name('clases');
 Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clase');
 
 Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');   
@@ -68,7 +72,8 @@ Route::get('/editar-clase/{id}', [ClaseController::class, 'editarClase'])->name(
 Route::put('/actualizar-clase/{id}', [ClaseController::class, 'actualizarClase'])->name('actualizar-clase');
 
 
-
+//Ruta para la vista de las asistencias de cada alumno
+Route::get('/asistencias',[AsistenciasController::class,'index'])->name('asistencias');
 
 
 
@@ -84,6 +89,8 @@ Route::get('/tabla-usuarios', [TablesController::class, 'users'])->name('tabla-u
 // Ruta para la tabla de horarios
 Route::get('/tabla-horarios', [TablesController::class, 'horarios'])->name('tabla-horarios');
 
+// Ruta para ver los detalles de clase 
+Route::get('/showClass/{clase}', [ClaseController::class, 'showClass'])->name('class.show');
 
 
 
@@ -98,3 +105,7 @@ Route::post('/activacion', [LoginController::class, 'activacion'])->name('activa
 Route::post('/asistencia', [LoginController::class, 'asistencia'])->name('asistencia');
 
 Route::post('/test', [LoginController::class, 'prueba'])->name('test');
+
+
+Route::get('/alumno/clases', [ClaseController::class, 'showClasses'])->name('show.classes');
+Route::get('/alumno/clase/{clase}', [ClaseController::class, 'detailClase'])->name('detail.clase');
