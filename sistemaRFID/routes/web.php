@@ -7,7 +7,7 @@ use App\Http\Controllers\TablesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CerrarSessionController;
-use App\Http\Controllers\ClaseController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,11 +40,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Ruta a la vista de usuarios
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
+Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
+Route::post('/addUser',[UserController::class, 'store']);
 
-// Ruta para el formulario de clase
-Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clase');
 
-Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');
+// Ruta a la vista de clases
+Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clase');
 
 // Ruta a la vista de horarios
 Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horario');
