@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CerrarSessionController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ClaseController;
+use App\Http\Controllers\HorarioController;
 use App\Models\User;
 
 /*
@@ -45,6 +46,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
 Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
 Route::post('/addUser',[UserController::class, 'store']);
+
+//Rutas para el modulo de horarios
+Route::get('/horarios',[HorarioController::class,'index'])->name('horarios');
+Route::get('/addHorarios',[HorarioController::class,'create'])->name('horarios.create');
+Route::post('/addHorarios',[HorarioController::class,'store']);
+
 
 // Ruta a la vista de clases
 Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clase');

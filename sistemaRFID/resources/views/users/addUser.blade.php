@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('contenido')
+@section('contenido-admin')
 <div class="w-screen h-screen left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"  style="background-image: url(https://images.unsplash.com/photo-1555421689-491a97ff2040?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);" id="modal-id">
     <div class="relative min-h-screen flex flex-col items-center justify-center "> 
         <div class="justify-center">

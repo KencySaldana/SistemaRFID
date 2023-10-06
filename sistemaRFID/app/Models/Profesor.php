@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Profesor extends Model
 {
     use HasFactory;
+
+    protected $table = 'profesores';
+
     //definimos la tabla a la que hace referencia este modelo
     protected $fillable = [
         'user_id',
@@ -18,7 +21,8 @@ class Profesor extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function horarios() {
-        return $this->belongsToMany(Horario::class, 'profesor_horario', 'profesor_id', 'horario_id');
-    }
+    public function horarios()
+{
+    return $this->hasMany(Horario::class, 'profesor_id');
+}
 }

@@ -21,4 +21,14 @@ class Materia extends Model
         return $this->belongsToMany(Alumno::class, 'materia_alumno', 'materia_id', 'alumno_id');
     }
 
+    public function Profesor() {
+        return $this->belongsToMany(Alumno::class, 'materia_alumno', 'materia_id', 'alumno_id');
+    }
+
+    public function horarios()
+    {
+        return $this->hasMany(Horario::class, 'materia_id');
+    }
+    
+
 }

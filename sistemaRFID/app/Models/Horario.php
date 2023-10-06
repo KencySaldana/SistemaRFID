@@ -14,10 +14,18 @@ class Horario extends Model
         'hora_inicio',
         'hora_fin',
         'materia_id',
+        'profesor_id',
     ];
 
-    public function profesores() {
-        return $this->belongsToMany(Profesor::class, 'profesor_horario', 'horario_id', 'profesor_id');
-    }
+    public function profesor()
+{
+    return $this->belongsTo(Profesor::class, 'profesor_id');
+}
+
+public function materia()
+{
+    return $this->belongsTo(Materia::class, 'materia_id');
+}
+
 
 }
