@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Horario;
 use App\Models\Profesor;
-use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;                
+
 
 class LoginController extends Controller
 {
@@ -54,6 +57,23 @@ class LoginController extends Controller
         $profesor_rfid_id = $request->UID;
         $profesor_matricula = $request->MATRICULA;
         $profedor_password = $request->PASS;
+
+        if($profesor_rfid_id){
+            $usuario=User::where('numero_tarjeta_rfid',$profesor_rfid_id)
+            ->where('rol',3)->first();
+            if($usuario){
+
+                $horaActual = Carbon::now();
+                $profesor = Profesor::find('user_id',$usuario->id);
+                $horario = Horario::where('profesor_id',$profesor->id)
+                ->whereTime('hora_inicio', '<=', $horaActual) // Verifica si la hora dada es después o igual que hora_inicio
+                ->whereTime('hora_fin', '>=', $horaActual)    // Verifica si la hora dada es antes o igual que hora_fin
+                ->first();
+                if($horario){
+                    return $horario->materia_id;
+                }
+            }
+        }
 
         // Profesor::where('numero_tarjeta_rfid', $profesor_rfid_id)->get;
         $id_de_clase = 11234567890;
