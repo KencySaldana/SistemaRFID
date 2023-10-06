@@ -43,7 +43,6 @@ Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
 Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
 Route::post('/addUser',[UserController::class, 'store']);
 
-
 // Ruta a la vista de clases
 Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clase');
 
