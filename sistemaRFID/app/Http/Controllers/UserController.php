@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Alumno;
+use App\Models\Profesor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +30,7 @@ class UserController extends Controller
             'rol' => 'required|in:1,2,3',
             'serial' => 'required|max:255',
         ]);
-        User::create([
+        $registro = User::create([
             'username' => $request->username,
             'password' => Hash::make($request->password), // Hash::make para encriptar la password
             'rol'=>$request->rol,
@@ -36,6 +38,18 @@ class UserController extends Controller
             'apellido'=>$request->apellido,
             'numero_tarjeta_rfid'=>$request->serial
         ]);
+
+        if($request->rol == 2){
+            // Guarda el ID del usuario en la tabla "profesores"
+            $profesor = new Profesor();
+            $profesor->user_id = $registro->id; // Asigna el ID del nuevo usuario
+            $profesor->save();
+        }elseif($request->rol==3){
+            // Guarda el ID del usuario en la tabla "profesores"
+            $alumno = new Alumno();
+            $alumno->user_id = $registro->id; // Asigna el ID del nuevo usuario
+            $alumno->save();
+        }
 
 
         return redirect()->route('usuarios')->with('success','El producto fue creado correctamente');

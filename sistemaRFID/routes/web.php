@@ -7,6 +7,7 @@ use App\Http\Controllers\TablesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CerrarSessionController;
+use App\Http\Controllers\LogoutController;
 use App\Models\User;
 
 /*
@@ -33,7 +34,8 @@ Route::post('/registrar-usuario', [RegisterController::class, 'registrar'])->nam
 // Ruta para cerrar sesión
 Route::get('/cerrar-sesion', [CerrarSessionController::class, 'cerrarSesion'])->name('cerrar-sesion');
 
-
+//Ruta para cerrar sesión
+Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 
 // Ruta al dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
