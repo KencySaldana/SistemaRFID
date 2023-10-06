@@ -21,6 +21,7 @@ class HorarioController extends Controller
         return view('horarios.addHorario',['materias'=>$materias,'profesores'=>$profesores]);
     }
 
+    
     public function store(Request $request){
         //Validaciones de formularios
         $this->validate($request, [
@@ -80,4 +81,7 @@ class HorarioController extends Controller
         $horario->delete();
         return redirect()->route('horarios')->with('success','El horario fue eliminado correctamente');
     }
+
+
+    
 }

@@ -5,6 +5,7 @@
     <div class="overflow-x-auto">
         <div
             class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
+            <h1 class="absolute font-black top-20 right-0  mr-[675px] mt-180 px-3 py-3  tracking-wider text-black rounded-full h">TABLA DE ASISTENCIAS</h1>
             <!-- Botón agregado arriba de la card y cargado a la derecha -->
             <div class="w-full lg:w-5/6">
                 <div class="bg-white shadow-md rounded my-6">

@@ -24,7 +24,7 @@
                                 <th class="py-3 px-6 text-center">Apellido</th>
                                 <th class="py-3 px-6 text-center">RFID</th>
                                 <th class="py-3 px-6 text-center">Estado</th>
-                                <th class="py-3 px-6 text-center">Acciones</th> <!-- Cambiado de "Action" a "Acciones" -->
+                                <th class="py-3 px-6 text-center"></th> <!-- Cambiado de "Action" a "Acciones" -->
                             </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
@@ -56,7 +56,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    
                 </div>
             </div>
         </div>

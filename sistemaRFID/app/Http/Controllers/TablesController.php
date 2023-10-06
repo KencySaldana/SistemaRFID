@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Materia;
+use App\Models\Horario;
 use Illuminate\Http\Request;
 
 class TablesController extends Controller
@@ -23,7 +24,9 @@ class TablesController extends Controller
     // Metodo para la tabla de horarios
     public function horarios()
     {
-        return view('tableHorario');   
+
+        $horarios = Horario::all();
+        return view('tableHorario', compact('horarios'));
     }
 
 }

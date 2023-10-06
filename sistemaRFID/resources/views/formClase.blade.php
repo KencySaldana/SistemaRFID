@@ -5,7 +5,8 @@
         style="background-image: url(https://images.unsplash.com/photo-1555421689-491a97ff2040?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);"
         id="modal-id">
         <div class="relative min-h-screen flex flex-col items-center justify-center ">
-            <div class="justify-center">
+            <div class="justify-center items-center">
+                <h1 class="absolute font-black top-0 right-0  mr-[675px] mt-180 px-3 py-3  tracking-wider text-black rounded-full h">FORMULARIO DE CLASE</h1>
                 <!-- Botón agregado arriba de la card y cargado a la derecha -->
                 {{-- <button
                 class="absolute top-0 right-0 bg-blue-600 mr-[510px] mt-40 px-3 py-3 shadow-sm tracking-wider text-white rounded-full hover:bg-blue-500 m-4"
