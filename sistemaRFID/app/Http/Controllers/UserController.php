@@ -53,7 +53,5 @@ class UserController extends Controller
 
 
         return redirect()->route('usuarios')->with('success','El producto fue creado correctamente');
-
-
     }
 }

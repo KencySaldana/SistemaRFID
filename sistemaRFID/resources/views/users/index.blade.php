@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('contenido')
+@section('contenido-admin')
     <!-- component -->
     <div class="overflow-x-auto">
         <div
@@ -15,8 +15,8 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6 text-left">Nombre</th>
-                                <th class="py-3 px-6 text-center">Apellido</th>
-                                <th class="py-3 px-6 text-left">Usuario</th>
+                                <th class="py-3 px-6 text-left">Apellido</th>
+                                <th class="py-3 px-6 text-center">Usuario</th>
                                 <th class="py-3 px-6 text-center">RFID</th>
                                 <th class="py-3 px-6 text-center">Rol</th>
                                 <th class="py-3 px-6 text-center">Actions</th>
