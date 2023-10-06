@@ -7,6 +7,7 @@ use App\Http\Controllers\TablesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CerrarSessionController;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Ruta a la vista de usuarios
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
-
+Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
+Route::post('/addUser',[UserController::class, 'store']);
 // Ruta a la vista de clases
 Route::get('/form-clases', [DashboardController::class, 'classes'])->name('form-clase');
 
