@@ -13,15 +13,18 @@ class Materia extends Model
         'nombre',
     ];
 
-    public function asistencias() {
-        return $this->belongsToMany(Asistencia::class, 'asistencia_materia', 'materia_id', 'asistencia_id');
-    }
-    
-    public function alumnos() {
+    public function alumnos()
+    {
         return $this->belongsToMany(Alumno::class, 'materia_alumno', 'materia_id', 'alumno_id');
     }
 
-    public function Profesor() {
+    public function asistencias()
+    {
+        return $this->belongsToMany(Asistencia::class, 'asistencia_materia', 'materia_id', 'asistencia_id');
+    }
+
+    public function Profesor()
+    {
         return $this->belongsToMany(Alumno::class, 'materia_alumno', 'materia_id', 'alumno_id');
     }
 
@@ -29,6 +32,4 @@ class Materia extends Model
     {
         return $this->hasMany(Horario::class, 'materia_id');
     }
-    
-
 }

@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Horario;
 use App\Models\Profesor;
-use Illuminate\Support\Carbon;
-use Illuminate\Http\Request;                
+use App\Models\Alumno;
 
+use Exception;
+use Illuminate\Support\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
     // Metodo para dirigir a la vista de login
     public function index()
     {
-        return view('auth.login');   
+        return view('auth.login');
     }
 
     // Metodo para iniciar sesión
@@ -36,10 +40,10 @@ class LoginController extends Controller
             return back()->with('errors', 'Credenciales Incorrectas');
         }
 
-        $rol= User::where('username',$request->username)->select('rol')->first();
+        $rol = User::where('username', $request->username)->select('rol')->first();
 
         // Redirecciona
-        return redirect()->route('dashboard',['rol'=>$rol]);
+        return redirect()->route('dashboard', ['rol' => $rol]);
     }
 
     // Metodo de prueba
@@ -54,31 +58,52 @@ class LoginController extends Controller
     // Metodo para mandar los datos de la tarjeta del profesor
     public function activacion(Request $request)
     {
-        $profesor_rfid_id = $request->UID;
-        $profesor_matricula = $request->MATRICULA;
-        $profedor_password = $request->PASS;
+        // Configura la zona horaria a Monterrey, México
+        date_default_timezone_set('America/Monterrey');
+        // Obtiene la hora actual en Monterrey
+        $horaActualMonterrey = date('H:i:s');
+        $matricula_id = $request->MATRICULA;
+        $password = $request->PASS;
 
-        if($profesor_rfid_id){
-            $usuario=User::where('numero_tarjeta_rfid',$profesor_rfid_id)
-            ->where('rol',3)->first();
-            if($usuario){
-
-                $horaActual = Carbon::now();
-                $profesor = Profesor::find('user_id',$usuario->id);
-                $horario = Horario::where('profesor_id',$profesor->id)
-                ->whereTime('hora_inicio', '<=', $horaActual) // Verifica si la hora dada es después o igual que hora_inicio
-                ->whereTime('hora_fin', '>=', $horaActual)    // Verifica si la hora dada es antes o igual que hora_fin
+        if ($request->UID) {
+            // Imprime la hora actual de Monterrey
+            $usuario = User::where('numero_tarjeta_rfid', $request->UID)
+                ->where('rol', 2)
                 ->first();
-                if($horario){
-                    return $horario->materia_id;
+            if ($usuario) {
+                $profesor = Profesor::where('user_id', $usuario->id)->first();
+                if ($profesor) {
+                    $horario = Horario::where('profesor_id', $profesor->id)
+                        ->whereTime('hora_inicio', '<=', $horaActualMonterrey)
+                        ->whereTime('hora_fin', '>=', $horaActualMonterrey)
+                        ->first();
+                    if ($horario) {
+                        return $horario->materia_id;
+                    }
                 }
+            } else {
+                return response()->json(['error' => 'El profesor no existe'], 400);
             }
+        }else{
+            $usuario = User::where('username', $matricula_id)
+                ->where('password', $password)
+                ->where('rol', 2)
+                ->first();
+                if ($usuario) {
+                    $profesor = Profesor::where('user_id', $usuario->id)->first();
+                    if ($profesor) {
+                        $horario = Horario::where('profesor_id', $profesor->id)
+                            ->whereTime('hora_inicio', '<=', $horaActualMonterrey)
+                            ->whereTime('hora_fin', '>=', $horaActualMonterrey)
+                            ->first();
+                        if ($horario) {
+                            return $horario->materia_id;
+                        }
+                    }
+                } else {
+                    return response()->json(['error' => 'El profesor no existe'], 400);
+                }
         }
-
-        // Profesor::where('numero_tarjeta_rfid', $profesor_rfid_id)->get;
-        $id_de_clase = 11234567890;
-
-        return ($id_de_clase);
     }
 
     // Metodo para mandar los datos de asistencia del alumno
@@ -88,7 +113,15 @@ class LoginController extends Controller
         $alumno_rfid_id = $request->UID;
         $alumno_matricula_id = $request->MATRICULA;
         $alumno_password = $request->PASS;
+
+        $usuario = User::where('numero_tarjeta_rfid', $request->UID)
+        ->where('rol', 3)
+        ->first();
+
+        $alumno = Alumno::where('user_id', $usuario->id)->first();
+
+        $materia
+
         return ($id_de_clase . " " . $alumno_rfid_id . " " . $alumno_matricula_id . " " . $alumno_password);
     }
-
 }

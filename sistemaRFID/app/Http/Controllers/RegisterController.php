@@ -28,7 +28,7 @@ class RegisterController extends Controller
              // Se agrega el campo 'username' en Models/User.php filleable para que espere ese campo también
              User::create([
                 'username' => $request->username,
-                'password' => Hash::make($request->password), // Hash::make para encriptar la password
+                'password' => $request->password, // Hash::make para encriptar la password
                 'rol'=>1,
                 'nombre'=>$request->nombre,
                 'apellido'=>$request->apellido
