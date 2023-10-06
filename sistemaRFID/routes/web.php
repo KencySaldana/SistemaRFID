@@ -58,6 +58,20 @@ Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clas
 
 Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');   
 
+// Ruta para eliminar una clase
+Route::delete('/eliminar-clase/{id}', [ClaseController::class, 'eliminarClase'])->name('eliminar-clase');
+
+// Ruta para editar una clase (mostrar formulario de edición)
+Route::get('/editar-clase/{id}', [ClaseController::class, 'editarClase'])->name('editar-clase');
+
+// Ruta para editar una clase (procesar formulario de edición)
+Route::put('/actualizar-clase/{id}', [ClaseController::class, 'actualizarClase'])->name('actualizar-clase');
+
+
+
+
+
+
 // Ruta a la vista de horarios
 Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('form-horario');
 
