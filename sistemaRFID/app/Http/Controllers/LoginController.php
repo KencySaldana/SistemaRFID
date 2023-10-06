@@ -6,7 +6,10 @@ use App\Models\User;
 use App\Models\Horario;
 use App\Models\Profesor;
 use App\Models\Alumno;
-
+use App\Models\Asistencia;
+use App\Models\AsistenciaAlumno;
+use App\Models\AsistenciaMateria;
+use App\Models\MateriaAlumno;
 use Exception;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
@@ -25,7 +28,6 @@ class LoginController extends Controller
     public function login(Request $request)
     {
 
-        // dd($request->all());
 
         $this->validate($request, [
             'username' => 'required',
@@ -35,7 +37,7 @@ class LoginController extends Controller
         // dd($request->all(), "Segundo dd");
 
         // Condicion para saber si el user se pudo autenticar
-        if (!auth()->attempt($request->only('username', 'password'), $request->remember)) {
+        if (!auth()->attempt($request->only('username', 'password'))) {
             // back() para volver a la pagina anterior, en este caso, con un mensaje
             return back()->with('errors', 'Credenciales Incorrectas');
         }
@@ -63,7 +65,6 @@ class LoginController extends Controller
         // Obtiene la hora actual en Monterrey
         $horaActualMonterrey = date('H:i:s');
         $matricula_id = $request->MATRICULA;
-        $password = $request->PASS;
 
         if ($request->UID) {
             // Imprime la hora actual de Monterrey
@@ -86,7 +87,6 @@ class LoginController extends Controller
             }
         }else{
             $usuario = User::where('username', $matricula_id)
-                ->where('password', $password)
                 ->where('rol', 2)
                 ->first();
                 if ($usuario) {
@@ -109,18 +109,53 @@ class LoginController extends Controller
     // Metodo para mandar los datos de asistencia del alumno
     public function asistencia(Request $request)
     {
+        //Variables de retirni de datos
         $id_de_clase = $request->ID_CLASE;
         $alumno_rfid_id = $request->UID;
         $alumno_matricula_id = $request->MATRICULA;
         $alumno_password = $request->PASS;
 
+        // Configura la zona horaria a Monterrey, México
+        date_default_timezone_set('America/Monterrey');
+        // Obtiene la hora actual en Monterrey
+        $horaActualMonterrey = date('H:i:s');
+        $fechaActualMonterrey = date('Y-m-d');
+
+
+
         $usuario = User::where('numero_tarjeta_rfid', $request->UID)
         ->where('rol', 3)
         ->first();
+        if($usuario){
+            $alumno = Alumno::where('user_id', $usuario->id)->first();
+            if($alumno){
+                $materiaAlumno = MateriaAlumno::where('alumno_id', $alumno->id)
+                ->where('materia_id', $id_de_clase)->first();
+                
+                if($materiaAlumno){
+                    $asistencia = new Asistencia();
+                    $asistencia->fecha = $fechaActualMonterrey;
+                    $asistencia->hora = $horaActualMonterrey;
+                    $asistencia->save();
 
-        $alumno = Alumno::where('user_id', $usuario->id)->first();
+                    $asistenciaAlumnos=new AsistenciaAlumno();
+                    $asistenciaAlumnos->asistencia_id=$asistencia->id;
+                    $asistenciaAlumnos->alumno_id=$alumno->id;
+                    $asistenciaAlumnos->save();
 
-        $materia
+                    $asistenciaMateria=new AsistenciaMateria();
+                    $asistenciaMateria->asistencia_id=$asistencia->id;
+                    $asistenciaMateria->materia_id=$id_de_clase;
+                    $asistenciaMateria->save();
+
+                    return "Asistencia registrada";
+                }
+            }
+        }else{
+            return response()->json(['error' => 'El alumno no existe'], 400);
+        }
+
+
 
         return ($id_de_clase . " " . $alumno_rfid_id . " " . $alumno_matricula_id . " " . $alumno_password);
     }

@@ -32,7 +32,7 @@ class UserController extends Controller
         ]);
         $registro = User::create([
             'username' => $request->username,
-            'password' => $request->password, // Hash::make para encriptar la password
+            'password' => Hash::make($request->password), // Hash::make para encriptar la password
             'rol'=>$request->rol,
             'nombre'=>$request->nombre,
             'apellido'=>$request->apellido,

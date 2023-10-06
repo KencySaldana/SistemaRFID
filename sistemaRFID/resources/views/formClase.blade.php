@@ -26,7 +26,7 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
                                 multiple>
                                 @foreach ($alumnos as $alumno)
-                                    <option value="{{ $alumno->id }}">{{ $alumno->nombre }}</option>
+                                    <option value="{{ $alumno->id }}">{{ $alumno->user->nombre }}</option>
                                 @endforeach
                             </select>
 

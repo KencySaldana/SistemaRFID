@@ -54,6 +54,7 @@ Route::post('/addHorarios',[HorarioController::class,'store']);
 
 
 // Ruta a la vista de clases
+Route::get('/clases', [ClaseController::class, 'index'])->name('clases');
 Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clase');
 
 Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');   

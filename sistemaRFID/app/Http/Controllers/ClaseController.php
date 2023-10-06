@@ -2,57 +2,61 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alumno;
 use App\Models\Materia;
 use App\Models\User;
 use App\Models\AsistenciaMateria;
 use App\Models\MateriaAlumno;
 use Exception;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\error;
 
 class ClaseController extends Controller
 {
+
+    public function index()
+    {
+        return view('tableClase');
+    }
+
     // Metodo para la vista de clases
     public function classes()
     {
         // Mandamos todos los alumnos
-        $alumnos = User::where('rol', 3)->get();
+        $alumnos = Alumno::all();
         return view('formClase', compact('alumnos'));
     }
 
     // Metodo para registrar una clase
     public function registrarClase(Request $request)
     {
-        try {
             // Validar los datos
             $request->validate([
                 'materia' => 'required',
-                'alumnos' => 'required|array', // Asegúrate de que se envíe un array de alumnos
+                'alumnos' => 'required', // Asegúrate de que se envíe un array de alumnos
             ]);
 
             // Registrar la clase
             $clase = new Materia();
             $clase->nombre = $request->materia;
             $clase->save();
+
             $materiaId = $clase->id;
 
             // Obtén los IDs de los alumnos desde el formulario
             $alumnosIds = $request->alumnos;
-
             // Registra la conexión en la tabla materia_alumno
             foreach ($alumnosIds as $alumnoId) {
-                MateriaAlumno::create([
-                    'alumno_id' => $alumnoId,
-                    'materia_id' => $materiaId,
-                ]);
+                $materiaAlumno = new MateriaAlumno();
+                $materiaAlumno->materia_id = $materiaId;
+                $materiaAlumno->alumno_id = $alumnoId;
+                $materiaAlumno->save();
             }
             // Redireccionar
-            return redirect()->route('table-clases')->with('mensaje', 'Clase registrada con éxito');
-        } catch (Exception $e) {
-            error($e->getMessage());
-            return back();
-        }
+            return redirect()->route('clases')->with('mensaje', 'Clase registrada con éxito');
+    
     }
 
 
