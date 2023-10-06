@@ -17,10 +17,15 @@ class LoginController extends Controller
     // Metodo para iniciar sesión
     public function login(Request $request)
     {
+
+        // dd($request->all());
+
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required'
         ]);
+
+        // dd($request->all(), "Segundo dd");
 
         // Condicion para saber si el user se pudo autenticar
         if (!auth()->attempt($request->only('username', 'password'), $request->remember)) {

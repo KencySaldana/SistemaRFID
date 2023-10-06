@@ -20,11 +20,7 @@ class DashboardController extends Controller
     }
 
 
-    // Metodo para la vista de clases
-    public function classes()
-    {
-        return view('formClase');   
-    }
+    
 
     // Metodo para la vista de horarios
     public function horarios()

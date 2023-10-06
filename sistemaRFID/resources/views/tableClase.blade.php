@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('contenido')
+@section('contenido-admin')
     <!-- component -->
     <div class="overflow-x-auto">
         <div
