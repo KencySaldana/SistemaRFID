@@ -174,7 +174,6 @@ class ClaseController extends Controller
     public function detailClase(Request $request){
         $alumno = Alumno::where('user_id', auth()->user()->id)->first();
 
-
         $asistencia= Asistencia::where('alumno_id', $alumno->id)
         ->where('materia_id', $request->clase)->get();
 
@@ -190,8 +189,6 @@ class ClaseController extends Controller
             'asistencias' => $asistencia,
             'porcentaje' => $porcentaje,
         ]);
-
-
     }
 
     function calcularDiferenciaEnDias($fecha1, $fecha2) {
