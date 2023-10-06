@@ -62,29 +62,35 @@ class ClaseController extends Controller
 
     // actualizar la clase con sus alumnos
     public function actualizarClase(Request $request, $id)
-    {
-        try {
+{
+    try {
+        // Validar los datos
+        $request->validate([
+            'materia' => 'required',
+            'alumnos' => 'required|array', // Asegúrate de que se envíe un array de alumnos
+        ]);
 
-            // dd($request->all(), $id); // aqui si llega
+        // Buscar la clase
+        $clase = Materia::find($id);
 
-            // Validar los datos
-            $request->validate([
-                'materia' => 'required',
-            ]);
-            
-            // Buscamos la clase
-            $clase = Materia::find($id);
-            // Actualizamos la clase
-            $clase->nombre = $request->materia;
-            $clase->save();
+        // Actualizar el nombre de la clase
+        $clase->nombre = $request->materia;
+        $clase->save();
 
-            // Redireccionar
-            return redirect()->route('tabla-clases')->with('mensaje', 'Clase actualizada con éxito');
-        } catch (Exception $e) {
-            error($e->getMessage());
-            return back();
-        }
+        // Obtener los nuevos IDs de los alumnos seleccionados
+        $alumnosIds = $request->alumnos;
+
+        // Actualizar la relación de alumnos
+        $clase->alumnos()->sync($alumnosIds);
+
+        // Redireccionar
+        return redirect()->route('tabla-clases')->with('mensaje', 'Clase actualizada con éxito');
+    } catch (Exception $e) {
+        error($e->getMessage());
+        return back();
     }
+}
+
 
     // Metodo para eliminar una clase
     public function eliminarClase($id)
