@@ -19,9 +19,5 @@ class DashboardController extends Controller
         return view('dashboard');   
     }
 
-    // Metodo para la vista de horarios
-    public function horarios()
-    {
-        return view('formHorario');   
-    }
+
 }

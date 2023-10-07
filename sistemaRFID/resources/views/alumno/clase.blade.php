@@ -8,7 +8,7 @@
                 class="text-3xl font-semibold text-indigo-700 absolute top-0 right-0  mt-32 mr-24 px-5 py-2 shadow-sm tracking-wider  m-4">
                 Porcentaje de asistencia: {{ $porcentaje }} %</h2>
 
-            <div class="w-full lg:w-5/6">
+            <div class="w-full lg:w-5/6 m-10">
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="min-w-max w-full table-auto">
                         <thead>
@@ -28,12 +28,13 @@
                     </table>
                 </div>
             </div>
+            <div class="container w-1/3 mt-4 flex justify-center justify-items-center">
+                <canvas id="percentageChart" width="400" height="400"></canvas>
+            </div>
         </div>
     </div>
 
-    <div class="container mx-auto mt-4">
-        <canvas id="percentageChart" width="400" height="400"></canvas>
-    </div>
+
 @endsection
 
 @section('scripts')
@@ -48,6 +49,7 @@
         var attendanceData = {
             labels: ["Asistencias"],
             datasets: [{
+                label: "Asistencias",
                 data: [attendancePercentage],
                 backgroundColor: ["#3490dc"],
                 hoverBackgroundColor: ["#227dc7"],
@@ -78,5 +80,29 @@
         ctx.font = "14px Arial";
         ctx.fillStyle = "black";
         ctx.fillText("Porcentaje de asistencias: {{ $porcentaje }}%", 10, 10);
+
+
+        // var nonAttendanceData = {
+        //     labels: ["No asistencias"],
+        //     datasets: [{
+        //         label: "No asistencias",
+        //         data: [nonAttendancePercentage],
+        //         backgroundColor: ["#f6993f"],
+        //         hoverBackgroundColor: ["#f66a0a"],
+        //     }],
+        // };
+
+        // var nonAtendanceOptions = {
+        //     responsive: true,
+        //     maintainAspectRatio: false,
+        //     scales: {
+        //         y: {
+        //             beginAtZero: true,
+        //             max: 100,
+        //         },
+        //     },
+        // };
+
+        var ctx = document.getElementById("percentageChart").getContext("2d");
     </script>
 @endsection

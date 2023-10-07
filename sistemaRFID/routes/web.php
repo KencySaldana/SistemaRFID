@@ -83,9 +83,6 @@ Route::get('/form-horarios', [DashboardController::class, 'horarios'])->name('fo
 // Ruta para la tabla de clase
 Route::get('/tabla-clase', [TablesController::class, 'classes'])->name('tabla-clases');
 
-// Ruta para la tabla de usuarios
-Route::get('/tabla-usuarios', [TablesController::class, 'users'])->name('tabla-usuarios');
-
 // Ruta para la tabla de horarios
 Route::get('/tabla-horarios', [TablesController::class, 'horarios'])->name('tabla-horarios');
 

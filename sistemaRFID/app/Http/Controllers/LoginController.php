@@ -43,13 +43,9 @@ class LoginController extends Controller
         }
 
         $rol = User::where('username', $request->username)->select('rol')->first();
-        
-    
-        
-        
 
         // Redirecciona
-        return redirect()->route('dashboard', ['rol' => $rol]);
+        return redirect()->route('dashboard', ['rol' => $rol, 'username' => $request->username]);
     }
 
     // Metodo de prueba
