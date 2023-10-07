@@ -32,4 +32,10 @@ class Materia extends Model
     {
         return $this->hasMany(Horario::class, 'materia_id');
     }
+
+    // Relacion para que un profesor puede tener muchas materias
+    public function profesor_materia()
+    {
+        return $this->belongsToMany(Profesor::class, 'profesor_materia', 'materia_id', 'profesor_id');
+    }
 }

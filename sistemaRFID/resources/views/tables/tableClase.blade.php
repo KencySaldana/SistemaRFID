@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('titulo', 'Tabla de clases')
+
 @section('contenido-admin')
     <!-- component -->
     <div class="overflow-x-auto">

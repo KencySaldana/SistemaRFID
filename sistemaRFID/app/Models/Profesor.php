@@ -17,12 +17,19 @@ class Profesor extends Model
     ];
 
     //Relacion con la tabla de usuarios
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
     public function horarios()
-{
-    return $this->hasMany(Horario::class, 'profesor_id');
-}
+    {
+        return $this->hasMany(Horario::class, 'profesor_id');
+    }
+
+    // Relacion para que un profesor puede tener muchas materias
+    public function profesor_materia()
+    {
+        return $this->belongsToMany(Materia::class, 'profesor_materia', 'profesor_id', 'materia_id');
+    }
 }

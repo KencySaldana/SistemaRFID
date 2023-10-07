@@ -12,13 +12,7 @@ class TablesController extends Controller
     public function classes()
     {
         $clases = Materia::all();
-        return view('tableClase', compact('clases'));   
-    }
-
-    // Metodo para la tabla de usuaris
-    public function users()
-    {
-        return view('tableUser');   
+        return view('tables.tableClase', compact('clases'));   
     }
 
     // Metodo para la tabla de horarios

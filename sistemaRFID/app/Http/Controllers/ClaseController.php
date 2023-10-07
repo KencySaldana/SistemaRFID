@@ -9,6 +9,7 @@ use App\Models\Materia;
 use App\Models\User;
 use App\Models\AsistenciaMateria;
 use App\Models\MateriaAlumno;
+use App\Models\ProfesorMateria;
 use Exception;
 use Carbon\Carbon;
 
@@ -20,10 +21,19 @@ use function Laravel\Prompts\error;
 class ClaseController extends Controller
 {
 
+    // Muestra la tabla de clases del profesor
     public function index()
     {
-        $clases = Materia::all();
-        return view('tableClase',['clases' => $clases]);
+        // Extraemos el id del profesor
+        $profesor = User::where('id', auth()->user()->id)->first();
+
+        // Buscamos en la tabla profesor_materia las materias que tiene el profesor
+        $materias = ProfesorMateria::where('profesor_id', $profesor->id)->get();
+
+        dd($materias, $profesor);
+
+        // Retornamos la vista
+        return view('tables.tableClase', compact('clases'));
     }
 
     // Metodo para la vista de clases
