@@ -32,7 +32,7 @@ class ClaseController extends Controller
 
         $clases = Materia::all();
 
-        
+
 
         // Retornamos la vista
         return view('tables.tableClase', compact('clases'));
@@ -49,33 +49,32 @@ class ClaseController extends Controller
     // Metodo para registrar una clase
     public function registrarClase(Request $request)
     {
-            // Validar los datos
-            $request->validate([
-                'materia' => 'required',
-                'alumnos' => 'required', // Asegúrate de que se envíe un array de alumnos
-            ]);
+        // Validar los datos
+        $request->validate([
+            'materia' => 'required',
+            'alumnos' => 'required', // Asegúrate de que se envíe un array de alumnos
+        ]);
 
-            // Registrar la clase
-            $clase = new Materia();
-            $clase->nombre = $request->materia;
-            $clase->fecha_inicio = $request->fecha_inicio;
-            $clase->fecha_fin = $request->fecha_fin;
-            $clase->save();
+        // Registrar la clase
+        $clase = new Materia();
+        $clase->nombre = $request->materia;
+        $clase->fecha_inicio = $request->fecha_inicio;
+        $clase->fecha_fin = $request->fecha_fin;
+        $clase->save();
 
-            $materiaId = $clase->id;
+        $materiaId = $clase->id;
 
-            // Obtén los IDs de los alumnos desde el formulario
-            $alumnosIds = $request->alumnos;
-            // Registra la conexión en la tabla materia_alumno
-            foreach ($alumnosIds as $alumnoId) {
-                $materiaAlumno = new MateriaAlumno();
-                $materiaAlumno->materia_id = $materiaId;
-                $materiaAlumno->alumno_id = $alumnoId;
-                $materiaAlumno->save();
-            }
-            // Redireccionar
-            return redirect()->route('clases')->with('mensaje', 'Clase registrada con éxito');
-    
+        // Obtén los IDs de los alumnos desde el formulario
+        $alumnosIds = $request->alumnos;
+        // Registra la conexión en la tabla materia_alumno
+        foreach ($alumnosIds as $alumnoId) {
+            $materiaAlumno = new MateriaAlumno();
+            $materiaAlumno->materia_id = $materiaId;
+            $materiaAlumno->alumno_id = $alumnoId;
+            $materiaAlumno->save();
+        }
+        // Redireccionar
+        return redirect()->route('clases')->with('mensaje', 'Clase registrada con éxito');
     }
 
 
@@ -138,58 +137,75 @@ class ClaseController extends Controller
         return redirect()->route('tabla-clases')->with('mensaje', 'Clase eliminada con éxito');
     }
 
-
+    // Este metodo muestra las asistencias de una clase en un rango de fechas
     public function showClass(Materia $clase, Request $request)
     {
-        $date = $request->input('date', now()->toDateString());
-    
+
+        // Obtenemos las fechas de inicio y final de corte que se hara el filtrado del form
+        $fechaInicio = $request->input('date_start');
+        $fechaFin = $request->input('date_end');
+
+
+
+        // $date = $request->input('date_start', now()->toDateString());
+
+        // dd($fechaInicio, $fechaFin, $date);
+
+        // Obtenemos las asistencias de la clase dependiendo de la fecha de inicio y fecha de fin
         $asistencias = Asistencia::where('materia_id', $clase->id)
-            ->whereDate('created_at', $date)
+            ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->get();
-    
+
+        // $asistencias = Asistencia::where('materia_id', $clase->id)
+        //     ->whereDate('created_at', $date)
+        //     ->get();
+
+        // dd($asistencias); // Trae todas las asistencias de la tabla asistencias que se encuentren entre las fechas asigndas
+
+        //Variable para alamacenar los alumnos que asistieron
         $alumnosAsistieron = [];
 
+        // Itereamos las asistencias para obtener los alumnos que asistieron
         foreach ($asistencias as $asistencia) {
-            
-                $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
-                $user = User::where('id', $alumno->user_id)->first();
-                // Agrega los alumnos que asistieron a la lista
-                //$alumnosAsistieron = array_merge($alumnosAsistieron, $user->toArray());
-                $alumnosAsistieron[] = $user;
-            
+
+            $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
+            $user = User::where('id', $alumno->user_id)->first();
+            // Agrega los alumnos que asistieron a la lista
+            //$alumnosAsistieron = array_merge($alumnosAsistieron, $user->toArray());
+            $alumnosAsistieron[] = $user;
         }
         return view('class.show', [
-            'date' => $date,
+            'date_start' => $fechaInicio,
+            'date_end' => $fechaFin,
             'alumnosAsistieron' => $alumnosAsistieron,
             'clase' => $clase,
         ]);
-    
-        
     }
 
 
-    public function showClasses(){
+    public function showClasses()
+    {
         $alumno = Alumno::where('user_id', auth()->user()->id)->first();
 
         $clases = MateriaAlumno::where('alumno_id', $alumno->id)->get();
 
         $clasesList = [];
-        foreach( $clases as $clase ){
+        foreach ($clases as $clase) {
             $class = Materia::where('id', $clase->materia_id)->first();
 
             $clasesList[] = $class;
         }
-        return view('alumno.materias',[
+        return view('alumno.materias', [
             'clases' => $clasesList
         ]);
-
     }
 
-    public function detailClase(Request $request){
+    public function detailClase(Request $request)
+    {
         $alumno = Alumno::where('user_id', auth()->user()->id)->first();
 
-        $asistencia= Asistencia::where('alumno_id', $alumno->id)
-        ->where('materia_id', $request->clase)->get();
+        $asistencia = Asistencia::where('alumno_id', $alumno->id)
+            ->where('materia_id', $request->clase)->get();
 
         $materia = Materia::where('id', $request->clase)->first();
 
@@ -198,18 +214,18 @@ class ClaseController extends Controller
         $numeroDeAsistencias = count($asistencia);
 
         $porcentaje = ($numeroDeAsistencias * 100) / $dias;
-        
-        return view('alumno.clase',[
+
+        return view('alumno.clase', [
             'asistencias' => $asistencia,
             'porcentaje' => $porcentaje,
         ]);
     }
 
-    function calcularDiferenciaEnDias($fecha1, $fecha2) {
+    function calcularDiferenciaEnDias($fecha1, $fecha2)
+    {
         $carbonFecha1 = Carbon::parse($fecha1);
         $carbonFecha2 = Carbon::parse($fecha2);
-    
+
         return $carbonFecha1->diffInDays($carbonFecha2);
     }
-
 }
