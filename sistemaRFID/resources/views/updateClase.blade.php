@@ -59,24 +59,28 @@
                             placeholder="Escribe el nombre de la clase" value="{{ $clase->nombre }}" />
                         <label for="alumnos" class="block text-gray-700 font-bold mt-4">Seleccionar Alumnos:</label>
                         <select name="alumnos[]" id="alumnos"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300 custom-select"
                             multiple>
-                            @foreach ($alumnos as $alumno)
+                            <!--    Seleecionar multiples alumnos de la varibales todos_los_alumnos
+                                                            y mostrarlos en el select
+                                                    -->
+                            @foreach ($todos_los_alumnos as $alumno)
                                 <option value="{{ $alumno->id }}"
-                                    data-alumno-inscrito="{{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? '1' : '0' }}">
-                                    {{ $alumno->nombre }}
-                                </option>
+                                    {{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                    {{ $alumno->username }} - {{ $alumno->nombre }} </option>
                             @endforeach
+
                         </select>
 
-                        <!-- Espacio para mostrar los alumnos inscritos -->
+
+                        <!-- Espacio para mostrar los alumnos inscritos a la clase -->
                         <div class="mt-4">
                             <h3 class="text-gray-700 font-bold mb-2">Alumnos Inscritos:</h3>
-                            <ul>
-                                @foreach ($alumnos_de_la_clase as $alumno_inscrito)
-                                    <li>{{ $alumno_inscrito->alumno_id }}</li>
+                            <ul class="ml-3">
+                                @foreach ($alumnos as $alumno)
+                                    <li>{{ $alumno->username }} - {{ $alumno->nombre }}</li>
                                 @endforeach
-                                <li>{{ $alumnos_de_la_clase }}</li>
+                                {{-- <li>{{ $todos_los_alumnos }}</li> --}}
                             </ul>
                         </div>
 

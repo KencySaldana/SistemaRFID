@@ -89,33 +89,23 @@ class ClaseController extends Controller
         // Buscamos a todos los alumnos que pertenecen a la clase
         $alumnos_de_la_clase = MateriaAlumno::where('materia_id', $id)->get();
 
+        // $todos_los_alumnos = Alumno::all();
         // Buscamos a todos los alumnos
-        $alumnos = User::where('rol', 3)->get();
+        $todos_los_alumnos = User::where('rol', 3)->get();
         // dd($alumnos, $alumnos_de_la_clase, $clase);
 
-        /* 
-        Comparamos el id de los alumnos de la clase con el id de todos los alumnos
-        para saber cuales alumnos ya estan registrados en la clase
-        */
-
-        /* El ciclo esta bien, lo que no esta bien es la relacion entre materia_alumno y alumno
-        ya que materia_alumno guarda el id de la creacion del alumno y no la llave foranea 
-        de alumnos la cual es user_id que es foranea de user */
-
-        $pertenecen_a_la_clase = [];
-        foreach ($alumnos as $alumno) {
-            foreach ($alumnos_de_la_clase as $alumno_de_la_clase) {
-                dd($alumno->id, $alumno_de_la_clase->alumno_id);
-                if ($alumno->id == $alumno_de_la_clase->alumno_id) {
-                    $pertenecen_a_la_clase[] = $alumno->id;
-                }
-            }
+        // Encontramos a todos los alumnos que pertenecen a la clase
+        $alumnos = [];
+        foreach ($alumnos_de_la_clase as $alumno_de_la_clase) {
+            $alumno = Alumno::where('id', $alumno_de_la_clase->alumno_id)->first();
+            $user = User::where('id', $alumno->user_id)->first();
+            $alumnos[] = $user;
         }
 
-        dd($pertenecen_a_la_clase);
+        // dd($alumnos);
 
         // Retornamos la vista
-        return view('updateClase', compact('clase', 'alumnos', 'alumnos_de_la_clase'));
+        return view('updateClase', compact('clase', 'alumnos', 'todos_los_alumnos'));
     }
 
     // actualizar la clase con sus alumnos
