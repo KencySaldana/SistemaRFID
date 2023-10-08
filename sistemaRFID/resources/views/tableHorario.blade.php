@@ -6,11 +6,12 @@
         <div
             class="min-w-screen min-h-screen bg-gray-100 flex items-center justify-center font-sans overflow-hidden">
             <!-- Botón agregado arriba de la card y cargado a la derecha -->
-            <h1 class="absolute font-black top-20 right-0  mr-[675px] mt-180 px-3 py-3  tracking-wider text-black rounded-full h">TABLA DE HORARIO</h1>
+            
             <a
                 class="absolute top-0 right-0 bg-blue-600 mt-32 mr-24 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-blue-500 m-4"
                 type="button" aria-label="like" href="{{route('horarios.create')}}">Agregar Horario</a>
             <div class="w-full lg:w-5/6">
+                <h1 class="px-3 py-3 font-bold tracking-wider text-black ">TABLA HORARIOS</h1>
                 <div class="bg-white shadow-md rounded my-6">
                     <table class="min-w-max w-full table-auto">
                         <thead>

@@ -3,13 +3,8 @@
 @section('contenido-admin')
 <div class="w-screen h-screen left-0 top-0 justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover"  style="background-image: url(https://images.unsplash.com/photo-1555421689-491a97ff2040?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);" id="modal-id">
     <div class="relative min-h-screen flex flex-col items-center justify-center "> 
+        <h1 class="font-black top-0 right-0   px-3 py-3  tracking-wider text-black rounded-full h">FORMULARIO DE USUARIO</h1>
         <div class="justify-center">
-            <h1 class="absolute font-black top-0 right-0  mr-[675px] mt-180 px-3 py-3  tracking-wider text-black rounded-full h">FORMULARIO DE USUARIO</h1>
-            <!-- Botón agregado arriba de la card y cargado a la derecha -->
-            {{-- <button
-                class="absolute top-0 right-0 bg-blue-600 mr-[510px] mt-40 px-3 py-3 shadow-sm tracking-wider text-white rounded-full hover:bg-blue-500 m-4"
-                type="button" aria-label="like">Ver clases</button> --}}
-            
             <div class="flex justify-center">
                 <div class="bg-white shadow-md w-96 rounded-3xl p-4">
                     <form method="POST" action="{{route('user.create')}} " class="sm:w-3/3 w-full px-4 lg:px-0 mx-auto" novalidate>
