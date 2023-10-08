@@ -161,17 +161,28 @@ class LoginController extends Controller
                     ->where('materia_id', $id_de_clase)->first();
 
                 if ($materiaAlumno) {
-
+                
+                    
                     //AQUI DEBERIA BUSCAR ESE ALUMNO Y PONERLE EL 1
 
                     $ultimaAsistencia = Asistencia::where('alumno_id', $alumno->id)
                     ->latest('fecha') // Ordena por la columna 'fecha' en orden descendente
                     ->first(); // Obtiene el primer resultado, que será la última asistencia
 
-                    $ultimaAsistencia->asistencia = 1;
-                    $ultimaAsistencia->save();
+                    if($ultimaAsistencia == $fechaActualMonterrey){
+                        $yaRegistrada = Asistencia::where('alumno_id', $alumno->id)
+                        ->where('asistencia', 0)->first();
+                        if($yaRegistrada){
+                            return response()->json(['error' => 'Ya registraste asistencia'], 400);
+                        }else{
+                            $ultimaAsistencia->asistencia = 1;
+                            $ultimaAsistencia->save();
 
-                    return "Asistencia registrada";
+                            return "Asistencia registrada";
+                        }
+                        
+                    }
+
                 } else {
                     return response()->json(['error' => 'Clase incorrecta'], 400);
                 }
