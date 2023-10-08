@@ -64,6 +64,7 @@ class LoginController extends Controller
         date_default_timezone_set('America/Monterrey');
         // Obtiene la hora actual en Monterrey
         $horaActualMonterrey = date('H:i:s');
+        $fechaActualMonterrey = date('Y-m-d');
         $matricula_id = $request->MATRICULA;
 
         if ($request->UID) {
@@ -79,7 +80,22 @@ class LoginController extends Controller
                         ->whereTime('hora_fin', '>=', $horaActualMonterrey)
                         ->first();
                     if ($horario) {
+                        //AQUI SE DEBERIAN AGREGAR TODOS LOS REGISTROS
+                        $alumnosEnMateria = MateriaAlumno::where('materia_id', $horario->materia_id)->get();
+
+                        // Itera sobre los alumnos y crea una nueva asistencia para cada uno
+                        foreach ($alumnosEnMateria as $alumnoEnMateria) {
+                            $asistencia = new Asistencia();
+                            $asistencia->fecha = $fechaActualMonterrey;
+                            $asistencia->hora = $horaActualMonterrey;
+                            $asistencia->alumno_id = $alumnoEnMateria->alumno_id;
+                            $asistencia->asistencia = 0;
+                            $asistencia->materia_id = $horario->materia_id; // Usamos el ID de la materia del horario
+                            $asistencia->save(); // Guarda la nueva asistencia en la base de datos
+                        }
+        
                         return $horario->materia_id;
+                    
                     } else {
                         return response()->json(['error' => 'No tienes clase'], 400);
                     }
@@ -146,14 +162,14 @@ class LoginController extends Controller
 
                 if ($materiaAlumno) {
 
+                    //AQUI DEBERIA BUSCAR ESE ALUMNO Y PONERLE EL 1
 
-                    $asistencia = new Asistencia();
-                    $asistencia->fecha = $fechaActualMonterrey;
-                    $asistencia->hora = $horaActualMonterrey;
-                    $asistencia->alumno_id = $alumno->id;
-                    $asistencia->asistencia = 1;
-                    $asistencia->materia_id = $id_de_clase;
-                    $asistencia->save();
+                    $ultimaAsistencia = Asistencia::where('alumno_id', $alumno->id)
+                    ->latest('fecha') // Ordena por la columna 'fecha' en orden descendente
+                    ->first(); // Obtiene el primer resultado, que será la última asistencia
+
+                    $ultimaAsistencia->asistencia = 1;
+                    $ultimaAsistencia->save();
 
                     return "Asistencia registrada";
                 } else {
