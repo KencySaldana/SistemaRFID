@@ -30,7 +30,9 @@ class ClaseController extends Controller
         // Buscamos en la tabla profesor_materia las materias que tiene el profesor
         $materias = ProfesorMateria::where('profesor_id', $profesor->id)->get();
 
-        dd($materias, $profesor);
+        $clases = Materia::all();
+
+        
 
         // Retornamos la vista
         return view('tables.tableClase', compact('clases'));
@@ -85,7 +87,9 @@ class ClaseController extends Controller
         // Buscamos los alumnos
         $alumnos = User::where('rol', 3)->get();
 
+
         // dd($alumnos);
+        $clases = Materia::all();
 
         // Retornamos la vista
         return view('updateClase', compact('clase', 'alumnos'));

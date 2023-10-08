@@ -49,6 +49,10 @@ Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
 Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
 Route::post('/addUser',[UserController::class, 'store']);
 
+// Ruta para eliminar un usuario
+Route::delete('/eliminar-usuario/{id}', [UserController::class, 'eliminarUsuario'])->name('eliminar-usuario');
+
+
 //Rutas para el modulo de horarios
 Route::get('/horarios',[HorarioController::class,'index'])->name('horarios');
 Route::get('/addHorarios',[HorarioController::class,'create'])->name('horarios.create');
@@ -70,6 +74,7 @@ Route::get('/editar-clase/{id}', [ClaseController::class, 'editarClase'])->name(
 
 // Ruta para editar una clase (procesar formulario de edición)
 Route::put('/actualizar-clase/{id}', [ClaseController::class, 'actualizarClase'])->name('actualizar-clase');
+
 
 
 //Ruta para la vista de las asistencias de cada alumno
