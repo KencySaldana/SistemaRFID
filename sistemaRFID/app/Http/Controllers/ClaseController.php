@@ -78,20 +78,44 @@ class ClaseController extends Controller
     }
 
 
-    // Editar la clase con sus alumnos
+    // Editar la clase con sus alumnos para el profesor
     public function editarClase($id)
     {
-        // Buscamos la clase
+
+        // dd($id);
+        // Buscamos el id de la clase
         $clase = Materia::find($id);
-        // Buscamos los alumnos
+
+        // Buscamos a todos los alumnos que pertenecen a la clase
+        $alumnos_de_la_clase = MateriaAlumno::where('materia_id', $id)->get();
+
+        // Buscamos a todos los alumnos
         $alumnos = User::where('rol', 3)->get();
+        // dd($alumnos, $alumnos_de_la_clase, $clase);
 
+        /* 
+        Comparamos el id de los alumnos de la clase con el id de todos los alumnos
+        para saber cuales alumnos ya estan registrados en la clase
+        */
 
-        // dd($alumnos);
-        $clases = Materia::all();
+        /* El ciclo esta bien, lo que no esta bien es la relacion entre materia_alumno y alumno
+        ya que materia_alumno guarda el id de la creacion del alumno y no la llave foranea 
+        de alumnos la cual es user_id que es foranea de user */
+
+        $pertenecen_a_la_clase = [];
+        foreach ($alumnos as $alumno) {
+            foreach ($alumnos_de_la_clase as $alumno_de_la_clase) {
+                dd($alumno->id, $alumno_de_la_clase->alumno_id);
+                if ($alumno->id == $alumno_de_la_clase->alumno_id) {
+                    $pertenecen_a_la_clase[] = $alumno->id;
+                }
+            }
+        }
+
+        dd($pertenecen_a_la_clase);
 
         // Retornamos la vista
-        return view('updateClase', compact('clase', 'alumnos'));
+        return view('updateClase', compact('clase', 'alumnos', 'alumnos_de_la_clase'));
     }
 
     // actualizar la clase con sus alumnos
@@ -144,13 +168,8 @@ class ClaseController extends Controller
         // Obtenemos las fechas de inicio y final de corte que se hara el filtrado del form
         $fechaInicio = $request->input('date_start');
         $fechaFin = $request->input('date_end');
-
-
-
         // $date = $request->input('date_start', now()->toDateString());
-
         // dd($fechaInicio, $fechaFin, $date);
-
         // Obtenemos las asistencias de la clase dependiendo de la fecha de inicio y fecha de fin
         $asistencias = Asistencia::where('materia_id', $clase->id)
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
@@ -174,6 +193,7 @@ class ClaseController extends Controller
             //$alumnosAsistieron = array_merge($alumnosAsistieron, $user->toArray());
             $alumnosAsistieron[] = $user;
         }
+
         return view('class.show', [
             'date_start' => $fechaInicio,
             'date_end' => $fechaFin,
