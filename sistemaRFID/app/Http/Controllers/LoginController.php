@@ -169,9 +169,9 @@ class LoginController extends Controller
                     ->latest('fecha') // Ordena por la columna 'fecha' en orden descendente
                     ->first(); // Obtiene el primer resultado, que será la última asistencia
 
-                    if($ultimaAsistencia == $fechaActualMonterrey){
+                    if($ultimaAsistencia){
                         $yaRegistrada = Asistencia::where('alumno_id', $alumno->id)
-                        ->where('asistencia', 0)->first();
+                        ->where('asistencia', 1)->first();
                         if($yaRegistrada){
                             return response()->json(['error' => 'Ya registraste asistencia'], 400);
                         }else{
@@ -180,8 +180,10 @@ class LoginController extends Controller
 
                             return "Asistencia registrada";
                         }
+                    }                    
+                    
                         
-                    }
+                    
 
                 } else {
                     return response()->json(['error' => 'Clase incorrecta'], 400);
