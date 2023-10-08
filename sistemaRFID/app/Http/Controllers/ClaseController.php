@@ -111,32 +111,40 @@ class ClaseController extends Controller
     // actualizar la clase con sus alumnos
     public function actualizarClase(Request $request, $id)
     {
-        try {
-            // Validar los datos
-            $request->validate([
-                'materia' => 'required',
-                'alumnos' => 'required|array', // Asegúrate de que se envíe un array de alumnos
-            ]);
 
-            // Buscar la clase
-            $clase = Materia::find($id);
+        // dd($request->alumnos, $id);
+        $request->validate([
+            'materia' => 'required',
+            'alumnos' => 'required', // Asegúrate de que se envíe un array de alumnos
+        ]);
 
-            // Actualizar el nombre de la clase
-            $clase->nombre = $request->materia;
-            $clase->save();
+        // Buscar la clase
+        $clase = Materia::find($id);
 
-            // Obtener los nuevos IDs de los alumnos seleccionados
-            $alumnosIds = $request->alumnos;
+        // Actualizar el nombre de la clase
+        $clase->nombre = $request->materia;
+        $clase->save();
 
-            // Actualizar la relación de alumnos
-            $clase->alumnos()->sync($alumnosIds);
+        // Obtener los nuevos IDs de los alumnos seleccionados
+        $alumnosIds = $request->alumnos;
 
-            // Redireccionar
-            return redirect()->route('tabla-clases')->with('mensaje', 'Clase actualizada con éxito');
-        } catch (Exception $e) {
-            error($e->getMessage());
-            return back();
+        // dd($alumnosIds);
+
+        // agregamos los nuevos alumnos a la clase
+        foreach ($alumnosIds as $alumnoId) {
+            // Verifica si ya existe una fila con el mismo par de materia_id y alumno_id
+            $existingRecord = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
+
+            if (!$existingRecord) {
+                // Si no existe, crea una nueva fila
+                $materiaAlumno = new MateriaAlumno();
+                $materiaAlumno->materia_id = $id;
+                $materiaAlumno->alumno_id = User::find($alumnoId)->alumno->id;
+                $materiaAlumno->save();
+            }
         }
+        // Redireccionar
+        return back()->with('mensaje', 'Clase actualizada con éxito');
     }
 
 
