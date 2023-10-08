@@ -165,14 +165,8 @@ class LoginController extends Controller
         } else {
             return response()->json(['error' => 'Alumno no existe'], 400);
         }
-
-
-
         return ($id_de_clase . " " . $alumno_rfid_id . " " . $alumno_matricula_id . " " . $alumno_password);
     }
-
-    
-
 }
 
 
