@@ -52,6 +52,18 @@ class UserController extends Controller
         }
 
 
-        return redirect()->route('usuarios')->with('success','El producto fue creado correctamente');
+        return redirect()->route('usuarios')->with('success','El usuario fue creado correctamente');
     }
+
+    // Metodo para eliminar una usuario
+    public function eliminarUsuario($id)
+    {
+        // Buscamos
+        $usuario = User::find($id);
+        // Eliminamos
+        $usuario->delete();
+        // Redireccionamos
+        return redirect()->route('usuarios')->with('mensaje', 'Usuario eliminada con éxito');
+    }
+
 }
