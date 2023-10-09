@@ -40,7 +40,9 @@
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                     <th class="py-3 px-6 text-center">Nombre</th>
                                     <th class="py-3 px-6 text-center">Apellido</th>
-                                    <th class="py-3 px-6 text-center">RFID</th>
+                                    <th class="py-3 px-6 text-center">Matrícula</th>
+                                    <th class="py-3 px-6 text-center">Fecha</th>
+                                    <th class="py-3 px-6 text-center">Hora</th>
                                     <th class="py-3 px-6 text-center">Estado</th>
                                     <th class="py-3 px-6 text-center"></th>
                                 </tr>
@@ -50,8 +52,9 @@
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                         <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->nombre }}</td>
                                         <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->apellido }}</td>
-                                        <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->numero_tarjeta_rfid }}
-                                        </td>
+                                        <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->username }}</td>
+                                        <td class="py-3 px-6 text-center">{{ $alumnos['fecha_asistencia'] }}</td>
+                                        <td class="py-3 px-6 text-center">{{ $alumnos['hora_asistencia'] }}</td>
                                         <td class="py-3 px-6 text-center">
                                             @if ($alumnos['asistencia'] == 1)
                                                 <span
