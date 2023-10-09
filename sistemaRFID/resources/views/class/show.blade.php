@@ -26,7 +26,7 @@
             {{-- Label para mostrar las fechas de filtrado --}}
             @if (isset($date_start) && isset($date_end))
                 <div
-                    class="absolute top-20 right-30 mt-40 mr-1 px-5 py-2 shadow-sm tracking-wider text-black rounded-full bg-blue-500 m-4">
+                    class=" top-0 right-300  mr-1 px-5 py-2 shadow-sm tracking-wider text-black rounded-full bg-blue-500 m-4">
                     <label for="label-start" class="m-4">Fecha de inicio: {{ $date_start }}</label>
                     <label for="label-end" class="m-4">Fecha de corte: {{ $date_end }}</label>
                 </div>
@@ -42,7 +42,7 @@
                                     <th class="py-3 px-6 text-center">Apellido</th>
                                     <th class="py-3 px-6 text-center">RFID</th>
                                     <th class="py-3 px-6 text-center">Estado</th>
-                                    <th class="py-3 px-6 text-center">Acciones</th>
+                                    <th class="py-3 px-6 text-center"></th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light">
@@ -60,14 +60,40 @@
                                                     asistió</span>
                                             @endif
                                         </td>
-                                        <td class="py-3 px-6 text-center">
+                                        <td class="flex py-3 px-6 text-center items-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
+
+                                                <a href="{{ route('editar-asistencia', ['id' => $alumnos->id]) }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                    </svg>
+                                                </a>
+
                                             </div>
+
+                                            <a href="#"
+                                                class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round"></g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <path
+                                                            d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                                            stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                        <path
+                                                            d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                                            stroke="#000000" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </g>
+                                                </svg>
+                                            </a>
+
+
                                         </td>
                                     </tr>
                                 @endforeach

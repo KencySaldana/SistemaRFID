@@ -77,7 +77,6 @@ class ClaseController extends Controller
         return redirect()->route('clases')->with('mensaje', 'Clase registrada con éxito');
     }
 
-
     // Editar la clase con sus alumnos para el profesor
     public function editarClase($id)
     {
@@ -169,8 +168,6 @@ class ClaseController extends Controller
         return back()->with('mensaje', 'Clase actualizada con éxito');
     }
 
-
-
     // Metodo para eliminar una clase
     public function eliminarClase($id)
     {
@@ -222,7 +219,6 @@ class ClaseController extends Controller
             'clase' => $clase,
         ]);
     }
-
 
     public function showClasses()
     {

@@ -46,25 +46,25 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Ruta a la vista de usuarios
 Route::get('/usuarios', [UserController::class, 'index'])->name('usuarios');
-Route::get('/addUser',[UserController::class, 'create'])->name('user.create');
-Route::post('/addUser',[UserController::class, 'store']);
+Route::get('/addUser', [UserController::class, 'create'])->name('user.create');
+Route::post('/addUser', [UserController::class, 'store']);
 
 // Ruta para eliminar un usuario
 Route::delete('/eliminar-usuario/{id}', [UserController::class, 'eliminarUsuario'])->name('eliminar-usuario');
 
 
 //Rutas para el modulo de horarios
-Route::get('/horarios',[HorarioController::class,'index'])->name('horarios');
-Route::get('/addHorarios',[HorarioController::class,'create'])->name('horarios.create');
-Route::post('/addHorarios',[HorarioController::class,'store']);
-Route::get('/editHorarios/{id}',[HorarioController::class,'edit'])->name('horarios.edit');
-Route::delete('/horarios/{id}',[HorarioController::class,'destroy'])->name('horarios.destroy');
+Route::get('/horarios', [HorarioController::class, 'index'])->name('horarios');
+Route::get('/addHorarios', [HorarioController::class, 'create'])->name('horarios.create');
+Route::post('/addHorarios', [HorarioController::class, 'store']);
+Route::get('/editHorarios/{id}', [HorarioController::class, 'edit'])->name('horarios.edit');
+Route::delete('/horarios/{id}', [HorarioController::class, 'destroy'])->name('horarios.destroy');
 
 // Ruta a la vista de clases
 Route::get('/clases', [ClaseController::class, 'index'])->name('clases');
 Route::get('/form-clases', [ClaseController::class, 'classes'])->name('form-clase');
 
-Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');   
+Route::post('/registrar-clase', [ClaseController::class, 'registrarClase'])->name('registrar-clase');
 
 // Ruta para eliminar una clase
 Route::delete('/eliminar-clase/{id}', [ClaseController::class, 'eliminarClase'])->name('eliminar-clase');
@@ -81,7 +81,7 @@ Route::put('/actualizar-clase/{id}', [ClaseController::class, 'actualizarClase']
 
 
 //Ruta para la vista de las asistencias de cada alumno
-Route::get('/asistencias',[AsistenciasController::class,'index'])->name('asistencias');
+Route::get('/asistencias', [AsistenciasController::class, 'index'])->name('asistencias');
 
 
 
@@ -114,3 +114,27 @@ Route::post('/test', [LoginController::class, 'prueba'])->name('test');
 
 Route::get('/alumno/clases', [ClaseController::class, 'showClasses'])->name('show.classes');
 Route::get('/alumno/clase/{clase}', [ClaseController::class, 'detailClase'])->name('detail.clase');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Ruta para ediatr la asistencia de un alumno
+Route::get('/editar-asistencia/{id}', [AsistenciasController::class, 'editarAsistencia'])->name('editar-asistencia');
+
+// Ruta para actualizar la asistencia de un alumno
+Route::put('/actualizar-asistencia/{id}', [AsistenciasController::class, 'updateAsistencia'])->name('actualizar-asistencia');
+
+// Ruta para la vista de la grafica de asistencia del alumno
+Route::get('/grafica-asistencia{id}', [AsistenciasController::class, 'graficaAsistencia'])->name('grafica-asistencia');
