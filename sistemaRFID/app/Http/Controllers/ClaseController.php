@@ -249,31 +249,78 @@ class ClaseController extends Controller
 
             $clasesList[] = $class;
         }
+
+        // dd($clasesList);
+
         return view('alumno.materias', [
             'clases' => $clasesList
         ]);
     }
 
-    public function detailClase(Request $request)
+    // Funcion para mostrar todas las asistencias de una clase
+    public function detailClase($id, Request $request)
     {
         $alumno = Alumno::where('user_id', auth()->user()->id)->first();
 
-        $asistencia = Asistencia::where('alumno_id', $alumno->id)
-            ->where('materia_id', $request->clase)->get();
+        // Obtener las asistencias del alumno para la clase específica y el rango de fechas
+        $asistencias = Asistencia::where('materia_id', $id)
+            ->where('alumno_id', $alumno->id)
+            ->get();
 
-        $materia = Materia::where('id', $request->clase)->first();
+        // samos el porcentaje de asistencias y faltas
+        $asistenciasTotales = count($asistencias); // Total de asistencias
 
-        $dias = $this->calcularDiferenciaEnDias($materia->fecha_inicio, $materia->fecha_fin);
+        // verificamos cuales si tiene un 0 y 1
+        $asistenciasContadas = 0; // Contador para asistencias (1)
+        $faltasContadas = 0; // Contador para faltas (0)
 
-        $numeroDeAsistencias = count($asistencia);
+        // Iteramos las asistencias para obtener los alumnos que asistieron y calcular asistencias/faltas
+        foreach ($asistencias as $asistencia) {
+            // Contar asistencias (1) y faltas (0)
+            if ($asistencia->asistencia == 1) {
+                $asistenciasContadas++;
+            } elseif ($asistencia->asistencia == 0) {
+                $faltasContadas++;
+            }
+        }
 
-        $porcentaje = ($numeroDeAsistencias * 100) / $dias;
+        // condicionamos que no se pueda didiviar entre 0
+        if ($asistenciasTotales == 0) {
+            $porcentajeAsistencias = 0;
+            $porcentajeFaltas = 0;
+        } else {
+            // Calcular el porcentaje de asistencias y faltas
+            $porcentajeAsistencias = ($asistenciasContadas / $asistenciasTotales) * 100;
+            $porcentajeFaltas = ($faltasContadas / $asistenciasTotales) * 100;
+        }
 
+        // regresamos a la vista
         return view('alumno.clase', [
-            'asistencias' => $asistencia,
-            'porcentaje' => $porcentaje,
+            'asistencias' => $asistencias,
+            'porcentajeAsistencias' => $porcentajeAsistencias,
+            'porcentajeFaltas' => $porcentajeFaltas,
         ]);
     }
+
+    public function asistenciasFiltradas(Request $request, Materia $materia)
+    {
+
+        // sacamos al alumno
+        $alumno = Alumno::where('user_id', auth()->user()->id)->first();
+
+        // Filtro de dias
+        $date_start = $request->input('date_start');
+        $date_end = $request->input('date_end');
+
+        // Filtro de asistencias en base al dia de inico y final
+        $asistencias = Asistencia::where('materia_id', $materia->id)
+            ->where('alumno_id', $alumno->id)
+            ->whereBetween('fecha', [$date_start, $date_end])
+            ->get();
+
+        dd($asistencias);
+    }
+
 
     function calcularDiferenciaEnDias($fecha1, $fecha2)
     {

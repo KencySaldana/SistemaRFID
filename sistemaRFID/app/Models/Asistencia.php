@@ -16,11 +16,13 @@ class Asistencia extends Model
     ];
 
     //Relacion con la tabla de alumnos con su tabla de intersección
-    public function alumnos() {
+    public function alumnos()
+    {
         return $this->belongsToMany(Alumno::class, 'alumno_id');
     }
 
-    public function materias() {
+    public function materias()
+    {
         return $this->belongsToMany(Materia::class, 'materia_id');
     }
 }

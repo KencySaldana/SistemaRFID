@@ -114,6 +114,8 @@ Route::post('/test', [LoginController::class, 'prueba'])->name('test');
 
 Route::get('/alumno/clases', [ClaseController::class, 'showClasses'])->name('show.classes');
 Route::get('/alumno/clase/{clase}', [ClaseController::class, 'detailClase'])->name('detail.clase');
+// Ruta para el filtrado de asistencia por fecha de cada alumno
+Route::get('/asistencias-filtradas', [ClaseController::class, 'asistenciasFiltradas'])->name('asistencias-filtradas');
 
 
 
