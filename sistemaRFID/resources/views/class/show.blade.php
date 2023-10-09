@@ -33,7 +33,7 @@
             @endif
 
             <div class="w-full lg:w-5/6">
-                <div class="bg-white shadow-md rounded my-6">
+                <div class="bg-white shadow-md rounded my-6 mx-4">
                     @if (count($alumnosAsistieron) > 0)
                         <table class="min-w-max w-full mt-60">
                             <thead>
@@ -112,7 +112,7 @@
                     @endif
                 </div>
             </div>
-            <div class="container w-1/3 mt-4 flex justify-center justify-items-center">
+            <div class="container w-1/3 mt-72 mx-4 flex justify-center justify-items-center">
                 <canvas id="percentageChart" width="400" height="400"></canvas>
             </div>
         </div>
