@@ -111,41 +111,64 @@ class ClaseController extends Controller
     // actualizar la clase con sus alumnos
     public function actualizarClase(Request $request, $id)
     {
-
-        // dd($request->alumnos, $id);
-        $request->validate([
-            'materia' => 'required',
-            'alumnos' => 'required', // Asegúrate de que se envíe un array de alumnos
-        ]);
+        // dd($request->all());
+        // dd($request->all());
 
         // Buscar la clase
         $clase = Materia::find($id);
+
 
         // Actualizar el nombre de la clase
         $clase->nombre = $request->materia;
         $clase->save();
 
-        // Obtener los nuevos IDs de los alumnos seleccionados
-        $alumnosIds = $request->alumnos;
+        if ($request->agregar === 'Agregar') {
+            // Obtener los nuevos IDs de los alumnos seleccionados
+            $alumnosIds = $request->alumnos;
 
-        // dd($alumnosIds);
+            // Condicionamos que si no hay alumnos seleccionados, no se haga nada
+            if (!$alumnosIds) {
+                return back()->with('mensaje', 'No se ha seleccionado ningún alumno');
+            }
 
-        // agregamos los nuevos alumnos a la clase
-        foreach ($alumnosIds as $alumnoId) {
-            // Verifica si ya existe una fila con el mismo par de materia_id y alumno_id
-            $existingRecord = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
+            // Agregamos los nuevos alumnos a la clase
+            foreach ($alumnosIds as $alumnoId) {
+                // Verifica si ya existe una fila con el mismo par de materia_id y alumno_id
+                $existingRecord = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
 
-            if (!$existingRecord) {
-                // Si no existe, crea una nueva fila
-                $materiaAlumno = new MateriaAlumno();
-                $materiaAlumno->materia_id = $id;
-                $materiaAlumno->alumno_id = User::find($alumnoId)->alumno->id;
-                $materiaAlumno->save();
+                if (!$existingRecord) {
+                    // Si no existe, crea una nueva fila
+                    $materiaAlumno = new MateriaAlumno();
+                    $materiaAlumno->materia_id = $id;
+                    $materiaAlumno->alumno_id = User::find($alumnoId)->alumno->id;
+                    $materiaAlumno->save();
+                }
+            }
+        } else {
+            // Obtener los nuevos IDs de los alumnos seleccionados
+            $alumnosIds = $request->alumnos;
+
+            // Condicionamos que si no hay alumnos seleccionados, no se haga nada
+            if (!$alumnosIds) {
+                return back()->with('mensaje', 'No se ha seleccionado ningún alumno');
+            }
+
+            // Eliminamos los alumnos que ya existen en la clase
+            foreach ($alumnosIds as $alumnoId) {
+                // Verifica si ya existe una fila con el mismo par de materia_id y alumno_id
+                $existingRecord = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
+
+                // Eliminar la fila si existe
+                if ($existingRecord) {
+                    $existingRecord->delete();
+                }
             }
         }
+
         // Redireccionar
         return back()->with('mensaje', 'Clase actualizada con éxito');
     }
+
 
 
     // Metodo para eliminar una clase

@@ -52,10 +52,10 @@
                                         <td class="py-3 px-6 text-center">{{ $alumnos->apellido }}</td>
                                         <td class="py-3 px-6 text-center">{{ $alumnos->numero_tarjeta_rfid }}</td>
                                         <td class="py-3 px-6 text-center">
-                                            @if ($alumnos->asistencia == 1)
+                                            @if ($alumnos->alumno->asistencia == 1)
                                                 <span
                                                     class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Asistió</span>
-                                            @else
+                                            @elseif ($alumnos->alumno->asistencia == 0)
                                                 <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">No
                                                     asistió</span>
                                             @endif

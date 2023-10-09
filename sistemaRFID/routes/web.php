@@ -75,6 +75,9 @@ Route::get('/editar-clase/{id}', [ClaseController::class, 'editarClase'])->name(
 // Ruta para editar una clase (procesar formulario de edición)
 Route::put('/actualizar-clase/{id}', [ClaseController::class, 'actualizarClase'])->name('actualizar-clase');
 
+// Ruta para eliminar un alumno de una clase
+// Route::delete('/eliminar-alumno-clase/{id}', [ClaseController::class, 'eliminarAlumnoClase'])->name('eliminar-alumno-clase');
+
 
 
 //Ruta para la vista de las asistencias de cada alumno

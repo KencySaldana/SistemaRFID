@@ -21,19 +21,37 @@
                             placeholder="Escribe el nombre de la clase" value="{{ $clase->nombre }}" />
                         <label for="alumnos" class="block text-gray-700 font-bold mt-4">Seleccionar Alumnos:</label>
                         <select name="alumnos[]" id="alumnos"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300 custom-select"
                             multiple>
-                            @foreach ($alumnos as $alumno)
+                            <!--    Seleecionar multiples alumnos de la varibales todos_los_alumnos
+                                                                        y mostrarlos en el select
+                                                                -->
+                            @foreach ($todos_los_alumnos as $alumno)
                                 <option value="{{ $alumno->id }}"
                                     {{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? 'selected' : '' }}>
-                                    {{ $alumno->nombre }}</option>
+                                    {{ $alumno->username }} - {{ $alumno->nombre }} </option>
                             @endforeach
                         </select>
 
+                        <!-- Espacio para mostrar los alumnos inscritos a la clase -->
+                        <div class="mt-4">
+                            <h3 class="text-gray-700 font-bold mb-2">Alumnos Inscritos:</h3>
+                            <ul class="ml-3">
+                                @foreach ($alumnos as $alumno)
+                                    <li>{{ $alumno->username }} - {{ $alumno->nombre }}</li>
+                                @endforeach
+                                {{-- <li>{{ $todos_los_alumnos }}</li> --}}
+                            </ul>
+                        </div>
+
+                        <!-- Botones para agregar y eliminar alumnos -->
                         <div class="flex space-x-3 text-sm pt-2 font-medium justify-end">
-                            <button
-                                class="mb-2 md:mb-0 bg-gray-900 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-gray-800"
-                                aria-label="like">Guardar</button>
+                            <button value="Agregar" name="agregar"
+                                class="mb-2 md:mb-0 bg-green-500 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-green-600"
+                                aria-label="like">Agregar</button>
+                            <button value="Eliminar" name="eliminar"
+                                class="mb-2 md:mb-0 bg-red-500 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-red-600"
+                                aria-label="like">Eliminar</button>
                         </div>
                     </div>
                 </form>
@@ -62,16 +80,14 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300 custom-select"
                             multiple>
                             <!--    Seleecionar multiples alumnos de la varibales todos_los_alumnos
-                                                            y mostrarlos en el select
-                                                    -->
+                                                                        y mostrarlos en el select
+                                                                -->
                             @foreach ($todos_los_alumnos as $alumno)
                                 <option value="{{ $alumno->id }}"
                                     {{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? 'selected' : '' }}>
                                     {{ $alumno->username }} - {{ $alumno->nombre }} </option>
                             @endforeach
-
                         </select>
-
 
                         <!-- Espacio para mostrar los alumnos inscritos a la clase -->
                         <div class="mt-4">
@@ -84,15 +100,17 @@
                             </ul>
                         </div>
 
+                        <!-- Botones para agregar y eliminar alumnos -->
                         <div class="flex space-x-3 text-sm pt-2 font-medium justify-end">
-                            <button
-                                class="mb-2 md:mb-0 bg-gray-900 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-gray-800"
-                                aria-label="like">Guardar</button>
+                            <button value="Agregar" name="agregar"
+                                class="mb-2 md:mb-0 bg-green-500 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-green-600"
+                                aria-label="like">Agregar</button>
+                            <button value="Eliminar" name="eliminar"
+                                class="mb-2 md:mb-0 bg-red-500 px-5 py-2 shadow-sm tracking-wider text-white rounded-full hover:bg-red-600"
+                                aria-label="like">Eliminar</button>
                         </div>
                     </div>
                 </form>
-
-
             </div>
         </div>
     </div>
