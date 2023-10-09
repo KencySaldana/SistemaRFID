@@ -76,7 +76,7 @@
 
                                             </div>
 
-                                            <a href="#"
+                                            {{-- <a href="#"
                                                 class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -93,7 +93,7 @@
                                                             stroke-linejoin="round"></path>
                                                     </g>
                                                 </svg>
-                                            </a>
+                                            </a> --}}
 
 
                                         </td>
