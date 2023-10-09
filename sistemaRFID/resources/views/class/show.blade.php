@@ -26,7 +26,7 @@
             {{-- Label para mostrar las fechas de filtrado --}}
             @if (isset($date_start) && isset($date_end))
                 <div
-                    class=" top-0 right-300  mr-1 px-5 py-2 shadow-sm tracking-wider text-black rounded-full bg-blue-500 m-4">
+                    class="absolute top-48 right-30 mr-1 px-5 py-2 shadow-sm tracking-wider text-black rounded-full bg-blue-500 m-4">
                     <label for="label-start" class="m-4">Fecha de inicio: {{ $date_start }}</label>
                     <label for="label-end" class="m-4">Fecha de corte: {{ $date_end }}</label>
                 </div>
@@ -35,7 +35,7 @@
             <div class="w-full lg:w-5/6">
                 <div class="bg-white shadow-md rounded my-6">
                     @if (count($alumnosAsistieron) > 0)
-                        <table class="min-w-max w-full mt-40">
+                        <table class="min-w-max w-full mt-60">
                             <thead>
                                 <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                     <th class="py-3 px-6 text-center">Nombre</th>
@@ -61,7 +61,7 @@
                                         <td class="flex py-3 px-6 text-center items-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
-                                                <a href="{{ route('editar-asistencia', ['id' => $alumnos->id]) }}">
+                                                <a href="{{ route('editar-asistencia', ['id' => $alumnos['usuario']->id]) }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -149,4 +149,76 @@
             </div>
         </div>
     </div>
+    <div class="container w-1/3 mt-4 flex justify-center justify-items-center">
+        <canvas id="percentageChart" width="400" height="400"></canvas>
+    </div>
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Obtén los porcentajes de asistencias y no asistencias de PHP y pásalos al script JavaScript
+        var attendancePercentage = {{ $porcentajeAsistencias }};
+        var nonAttendancePercentage = {{ $porcentajeFaltas }};
+
+        // Configura los datos del gráfico de asistencias
+        var attendanceData = {
+            labels: ["Asistencias"],
+            datasets: [{
+                label: "Asistencias",
+                data: [attendancePercentage],
+                backgroundColor: ["#3490dc"],
+                hoverBackgroundColor: ["#227dc7"],
+            }],
+        };
+
+        // Configura las opciones de los gráficos
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                },
+            },
+        };
+
+        // Dibuja el gráfico en el lienzo canvas
+        var ctx = document.getElementById("percentageChart").getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: attendanceData,
+            options: options,
+        });
+
+        // Agregar un texto personalizado a la leyenda
+        ctx.font = "14px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Porcentaje de asistencias: {{ $porcentajeAsistencias }}%", 10, 10);
+
+
+        // var nonAttendanceData = {
+        //     labels: ["No asistencias"],
+        //     datasets: [{
+        //         label: "No asistencias",
+        //         data: [nonAttendancePercentage],
+        //         backgroundColor: ["#f6993f"],
+        //         hoverBackgroundColor: ["#f66a0a"],
+        //     }],
+        // };
+
+        // var nonAtendanceOptions = {
+        //     responsive: true,
+        //     maintainAspectRatio: false,
+        //     scales: {
+        //         y: {
+        //             beginAtZero: true,
+        //             max: 100,
+        //         },
+        //     },
+        // };
+
+        var ctx = document.getElementById("percentageChart").getContext("2d");
+    </script>
 @endsection
