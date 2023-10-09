@@ -34,6 +34,8 @@ class ClaseController extends Controller
         $clases = Materia::all();
 
 
+        dd($profesor, $materias, $clases); // No registra materias
+
 
         // Retornamos la vista
         return view('tables.tableClase', compact('clases'));
@@ -50,6 +52,9 @@ class ClaseController extends Controller
     // Metodo para registrar una clase
     public function registrarClase(Request $request)
     {
+
+        dd($request->all());
+
         // Validar los datos
         $request->validate([
             'materia' => 'required',
