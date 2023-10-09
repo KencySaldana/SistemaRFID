@@ -180,7 +180,7 @@ class ClaseController extends Controller
         return redirect()->route('tabla-clases')->with('mensaje', 'Clase eliminada con éxito');
     }
 
-    public function showClass(Materia $clase, Request $request)
+        public function showClass(Materia $clase, Request $request)
     {
         // Obtenemos las fechas de inicio y final de corte que se hará el filtrado del formulario
         $fechaInicio = $request->input('date_start');
@@ -191,7 +191,7 @@ class ClaseController extends Controller
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->get();
 
-        // Variable para almacenar los alumnos que asistieron y faltaron
+        // Variable para almacenar los alumnos que asistieron y faltaron, incluyendo fechas de asistencia
         $alumnosAsistieron = [];
         $asistenciasTotales = count($asistencias); // Total de asistencias
         $asistenciasContadas = 0; // Contador para asistencias (1)
@@ -205,7 +205,9 @@ class ClaseController extends Controller
             // Agregar el usuario y el valor de asistencia al arreglo
             $alumnosAsistieron[] = [
                 'usuario' => $user,
-                'asistencia' => $asistencia->asistencia
+                'asistencia' => $asistencia->asistencia,
+                'fecha_asistencia' => $asistencia->created_at->format('Y-m-d'), // Agrega la fecha de asistencia
+                'hora_asistencia' => $asistencia->hora
             ];
 
             // Contar asistencias (1) y faltas (0)
@@ -216,7 +218,7 @@ class ClaseController extends Controller
             }
         }
 
-        // condicionamos que no se pueda didiviar entre 0
+        // condicionamos que no se pueda dividir entre 0
         if ($asistenciasTotales == 0) {
             $porcentajeAsistencias = 0;
             $porcentajeFaltas = 0;
@@ -235,6 +237,7 @@ class ClaseController extends Controller
             'porcentajeFaltas' => $porcentajeFaltas,
         ]);
     }
+
 
 
     public function showClasses()
