@@ -208,11 +208,16 @@ class ClaseController extends Controller
         // Itereamos las asistencias para obtener los alumnos que asistieron
         foreach ($asistencias as $asistencia) {
 
+            //$alumno = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
             $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
             $user = User::where('id', $alumno->user_id)->first();
             // Agrega los alumnos que asistieron a la lista
             //$alumnosAsistieron = array_merge($alumnosAsistieron, $user->toArray());
-            $alumnosAsistieron[] = $user;
+            // Agregar el usuario y el valor de asistencia al arreglo
+            $alumnosAsistieron[] = [
+                'usuario' => $user,
+                'asistencia' => $asistencia->asistencia
+            ];
         }
 
         return view('class.show', [
