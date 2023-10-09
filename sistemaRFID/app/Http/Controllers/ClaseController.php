@@ -17,7 +17,6 @@ use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\error;
-use function Symfony\Component\VarDumper\Dumper\esc;
 
 class ClaseController extends Controller
 {
@@ -77,6 +76,7 @@ class ClaseController extends Controller
         // Redireccionar
         return redirect()->route('clases')->with('mensaje', 'Clase registrada con éxito');
     }
+
 
     // Editar la clase con sus alumnos para el profesor
     public function editarClase($id)
@@ -169,6 +169,8 @@ class ClaseController extends Controller
         return back()->with('mensaje', 'Clase actualizada con éxito');
     }
 
+
+
     // Metodo para eliminar una clase
     public function eliminarClase($id)
     {
@@ -180,50 +182,42 @@ class ClaseController extends Controller
         return redirect()->route('tabla-clases')->with('mensaje', 'Clase eliminada con éxito');
     }
 
+    // Este metodo muestra las asistencias de una clase en un rango de fechas
     public function showClass(Materia $clase, Request $request)
     {
-        // Obtenemos las fechas de inicio y final de corte que se hará el filtrado del formulario
+
+        // Obtenemos las fechas de inicio y final de corte que se hara el filtrado del form
         $fechaInicio = $request->input('date_start');
         $fechaFin = $request->input('date_end');
-
+        // $date = $request->input('date_start', now()->toDateString());
+        // dd($fechaInicio, $fechaFin, $date);
         // Obtenemos las asistencias de la clase dependiendo de la fecha de inicio y fecha de fin
         $asistencias = Asistencia::where('materia_id', $clase->id)
             ->whereBetween('created_at', [$fechaInicio, $fechaFin])
             ->get();
 
-        // Variable para almacenar los alumnos que asistieron y faltaron
-        $alumnosAsistieron = [];
-        $asistenciasTotales = count($asistencias); // Total de asistencias
-        $asistenciasContadas = 0; // Contador para asistencias (1)
-        $faltasContadas = 0; // Contador para faltas (0)
+        // $asistencias = Asistencia::where('materia_id', $clase->id)
+        //     ->whereDate('created_at', $date)
+        //     ->get();
 
-        // Iteramos las asistencias para obtener los alumnos que asistieron y calcular asistencias/faltas
+        // dd($asistencias); // Trae todas las asistencias de la tabla asistencias que se encuentren entre las fechas asigndas
+
+        //Variable para alamacenar los alumnos que asistieron
+        $alumnosAsistieron = [];
+
+        // Itereamos las asistencias para obtener los alumnos que asistieron
         foreach ($asistencias as $asistencia) {
+
+            //$alumno = MateriaAlumno::where('materia_id', $id)->where('alumno_id', User::find($alumnoId)->alumno->id)->first();
             $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
             $user = User::where('id', $alumno->user_id)->first();
-
+            // Agrega los alumnos que asistieron a la lista
+            //$alumnosAsistieron = array_merge($alumnosAsistieron, $user->toArray());
             // Agregar el usuario y el valor de asistencia al arreglo
             $alumnosAsistieron[] = [
                 'usuario' => $user,
                 'asistencia' => $asistencia->asistencia
             ];
-
-            // Contar asistencias (1) y faltas (0)
-            if ($asistencia->asistencia == 1) {
-                $asistenciasContadas++;
-            } elseif ($asistencia->asistencia == 0) {
-                $faltasContadas++;
-            }
-        }
-
-        // condicionamos que no se pueda didiviar entre 0
-        if ($asistenciasTotales == 0) {
-            $porcentajeAsistencias = 0;
-            $porcentajeFaltas = 0;
-        } else {
-            // Calcular el porcentaje de asistencias y faltas
-            $porcentajeAsistencias = ($asistenciasContadas / $asistenciasTotales) * 100;
-            $porcentajeFaltas = ($faltasContadas / $asistenciasTotales) * 100;
         }
 
         return view('class.show', [
@@ -231,8 +225,6 @@ class ClaseController extends Controller
             'date_end' => $fechaFin,
             'alumnosAsistieron' => $alumnosAsistieron,
             'clase' => $clase,
-            'porcentajeAsistencias' => $porcentajeAsistencias,
-            'porcentajeFaltas' => $porcentajeFaltas,
         ]);
     }
 

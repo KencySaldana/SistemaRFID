@@ -193,8 +193,17 @@
                     max: 100,
                 },
             },
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        font: {
+                            size: 14,
+                        },
+                    },
+                },
+            },
         };
-
         // Dibuja el gráfico en el lienzo canvas
         var ctx = document.getElementById("percentageChart").getContext("2d");
         var myChart = new Chart(ctx, {
