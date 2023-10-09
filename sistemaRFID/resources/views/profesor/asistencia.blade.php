@@ -12,9 +12,10 @@
             <h1 class="font-black tracking-wider text-black rounded-full h">FORMULARIO DE ASISTENCIA</h1>
             <div class="justify-center items-center">
 
-                <form action="{{ route('actualizar-asistencia'), [] }}" method="POST" novalidate>
+                <form
+                    action="{{ route('actualizar-asistencia', ['materia_id' => $asistencia->materia_id, 'alumno_id' => $asistencia->alumno_id, 'hora' => $asistencia->hora]) }}"
+                    method="POST" novalidate>
                     @csrf
-
                     @method('PUT')
                     <div class="flex justify-center">
                         <div class="bg-white shadow-md w-96 rounded-3xl p-4">
@@ -30,7 +31,11 @@
                                 </select>
                             </div>
 
+                            <!-- Campo oculto para pasar la hora  en que se registro la asistencia -->
+                            <input type="hidden" name="hora" value="{{ $asistencia->hora }}">
 
+                            <!-- Campo oculto para pasar la fecha en que se registro la asistencia -->
+                            <input type="hidden" name="fecha" value="{{ $asistencia->fecha }}">
 
                             <div class="flex space-x-3 text-sm pt-2 font-medium justify-end">
                                 <button

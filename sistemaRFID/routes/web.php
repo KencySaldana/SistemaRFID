@@ -134,7 +134,7 @@ Route::get('/alumno/clase/{clase}', [ClaseController::class, 'detailClase'])->na
 Route::get('/editar-asistencia/{id}', [AsistenciasController::class, 'editarAsistencia'])->name('editar-asistencia');
 
 // Ruta para actualizar la asistencia de un alumno
-Route::put('/actualizar-asistencia/{id}', [AsistenciasController::class, 'updateAsistencia'])->name('actualizar-asistencia');
+Route::put('/actualizar-asistencia/{materia_id}/{alumno_id}/{hora}', [AsistenciasController::class, 'updateAsistencia'])->name('actualizar-asistencia');
 
 // Ruta para la vista de la grafica de asistencia del alumno
 Route::get('/grafica-asistencia{id}', [AsistenciasController::class, 'graficaAsistencia'])->name('grafica-asistencia');
