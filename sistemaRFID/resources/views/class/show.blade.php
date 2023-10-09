@@ -50,18 +50,22 @@
                                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                                         <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->nombre }}</td>
                                         <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->apellido }}</td>
-                                        <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->numero_tarjeta_rfid }}</td>
+                                        <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->numero_tarjeta_rfid }}
+                                        </td>
                                         <td class="py-3 px-6 text-center">
                                             @if ($alumnos['asistencia'] == 1)
-                                                <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Asistió</span>
+                                                <span
+                                                    class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Asistió</span>
                                             @elseif ($alumnos['asistencia'] == 0)
-                                                <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">No asistió</span>
+                                                <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">No
+                                                    asistió</span>
                                             @endif
                                         </td>
                                         <td class="flex py-3 px-6 text-center items-center justify-center">
                                             <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
-                                                <a href="{{ route('editar-asistencia', ['id' => $alumnos['usuario']->id]) }}">
+                                                <a
+                                                    href="{{ route('editar-asistencia', ['id' => $alumnos['usuario']->id]) }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -107,6 +111,9 @@
                         </div>
                     @endif
                 </div>
+            </div>
+            <div class="container w-1/3 mt-4 flex justify-center justify-items-center">
+                <canvas id="percentageChart" width="400" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -161,14 +168,14 @@
         var attendancePercentage = {{ $porcentajeAsistencias }};
         var nonAttendancePercentage = {{ $porcentajeFaltas }};
 
-        // Configura los datos del gráfico de asistencias
-        var attendanceData = {
-            labels: ["Asistencias"],
+        // Configura los datos del gráfico
+        var data = {
+            labels: ["Asistencias", "No asistencias"],
             datasets: [{
                 label: "Asistencias",
-                data: [attendancePercentage],
-                backgroundColor: ["#3490dc"],
-                hoverBackgroundColor: ["#227dc7"],
+                data: [attendancePercentage, nonAttendancePercentage],
+                backgroundColor: ["#3490dc", "#f6993f"],
+                hoverBackgroundColor: ["#227dc7", "#f66a0a"],
             }],
         };
 
@@ -188,7 +195,7 @@
         var ctx = document.getElementById("percentageChart").getContext("2d");
         var myChart = new Chart(ctx, {
             type: "bar",
-            data: attendanceData,
+            data: data,
             options: options,
         });
 
@@ -196,29 +203,5 @@
         ctx.font = "14px Arial";
         ctx.fillStyle = "black";
         ctx.fillText("Porcentaje de asistencias: {{ $porcentajeAsistencias }}%", 10, 10);
-
-
-        // var nonAttendanceData = {
-        //     labels: ["No asistencias"],
-        //     datasets: [{
-        //         label: "No asistencias",
-        //         data: [nonAttendancePercentage],
-        //         backgroundColor: ["#f6993f"],
-        //         hoverBackgroundColor: ["#f66a0a"],
-        //     }],
-        // };
-
-        // var nonAtendanceOptions = {
-        //     responsive: true,
-        //     maintainAspectRatio: false,
-        //     scales: {
-        //         y: {
-        //             beginAtZero: true,
-        //             max: 100,
-        //         },
-        //     },
-        // };
-
-        var ctx = document.getElementById("percentageChart").getContext("2d");
     </script>
 @endsection

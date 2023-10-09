@@ -17,6 +17,7 @@ use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\error;
+use function Symfony\Component\VarDumper\Dumper\esc;
 
 class ClaseController extends Controller
 {
@@ -215,9 +216,15 @@ class ClaseController extends Controller
             }
         }
 
-        // Calcular el porcentaje de asistencias y faltas
-        $porcentajeAsistencias = ($asistenciasContadas / $asistenciasTotales) * 100;
-        $porcentajeFaltas = ($faltasContadas / $asistenciasTotales) * 100;
+        // condicionamos que no se pueda didiviar entre 0
+        if ($asistenciasTotales == 0) {
+            $porcentajeAsistencias = 0;
+            $porcentajeFaltas = 0;
+        } else {
+            // Calcular el porcentaje de asistencias y faltas
+            $porcentajeAsistencias = ($asistenciasContadas / $asistenciasTotales) * 100;
+            $porcentajeFaltas = ($faltasContadas / $asistenciasTotales) * 100;
+        }
 
         return view('class.show', [
             'date_start' => $fechaInicio,
