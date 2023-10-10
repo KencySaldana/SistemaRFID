@@ -43,6 +43,7 @@
                                     <th class="py-3 px-6 text-center">Matrícula</th>
                                     <th class="py-3 px-6 text-center">Fecha</th>
                                     <th class="py-3 px-6 text-center">Hora</th>
+                                    <th class="py-3 px-6 text-center">% Asistencia</th>
                                     <th class="py-3 px-6 text-center">Estado</th>
                                     <th class="py-3 px-6 text-center"></th>
                                 </tr>
@@ -55,6 +56,15 @@
                                         <td class="py-3 px-6 text-center">{{ $alumnos['usuario']->username }}</td>
                                         <td class="py-3 px-6 text-center">{{ $alumnos['fecha_asistencia'] }}</td>
                                         <td class="py-3 px-6 text-center">{{ $alumnos['hora_asistencia'] }}</td>
+                                        <td class="py-3 px-6 text-center">
+                                            @if ($alumnos['porcentaje_asistencia'] >= 80)
+                                                <span
+                                                    class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{$alumnos['porcentaje_asistencia']}}%</span>
+                                            @elseif ($alumnos['porcentaje_asistencia'] < 80)
+                                                <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">{{$alumnos['porcentaje_asistencia']}}%</span>
+                                            @endif
+                                        </td>
+                                        </td>
                                         <td class="py-3 px-6 text-center">
                                             @if ($alumnos['asistencia'] == 1)
                                                 <span
@@ -172,8 +182,8 @@
 
     <script>
         // Obtén los porcentajes de asistencias y no asistencias de PHP y pásalos al script JavaScript
-        var attendancePercentage = {{ $porcentajeAsistencias }};
-        var nonAttendancePercentage = {{ $porcentajeFaltas }};
+        var attendancePercentage = {{ $porcentajeAsistenciasGrupal }};
+        var nonAttendancePercentage = {{ $porcentajeFaltasGrupal }};
 
         // Configura los datos del gráfico
         var data = {
@@ -218,6 +228,6 @@
         // Agregar un texto personalizado a la leyenda
         ctx.font = "14px Arial";
         ctx.fillStyle = "black";
-        ctx.fillText("Porcentaje de asistencias: {{ $porcentajeAsistencias }}%", 10, 10);
+        ctx.fillText("Porcentaje de asistencias: {{ $porcentajeAsistenciasGrupal }}%", 10, 10);
     </script>
 @endsection
