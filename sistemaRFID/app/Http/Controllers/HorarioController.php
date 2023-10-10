@@ -13,6 +13,7 @@ class HorarioController extends Controller
     //Ruta para retornar la vista de horarios
     public function index()
     {
+        // dd('HOLA'); // esta vista solo la ve el admin
         $horario = Horario::all();
         return view('horarios.index', ['horario' => $horario]);
     }
@@ -26,10 +27,12 @@ class HorarioController extends Controller
     }
 
 
+    // Generar un horario como administrador
     public function store(Request $request)
     {
 
         // dd($request->all());
+        // El id de la tabla profesor
 
         //Validaciones de formularios
         $this->validate($request, [
@@ -40,6 +43,16 @@ class HorarioController extends Controller
             'dia' => 'required',
         ]);
 
+        // dd($request->all()); // si pasan todos los valores
+
+        // Asigamos la materia al profesor en la tabla de profesor_materia
+        ProfesorMateria::create([
+            'materia_id' => $request->materia,
+            'profesor_id' => $request->profesor,
+        ]);
+
+        // dd('hola'); // Si se agregan los valores a la tabla profesor_materia
+
         Horario::create([
             'materia_id' => $request->materia,
             'dia' => $request->dia,
@@ -47,12 +60,6 @@ class HorarioController extends Controller
             'hora_inicio' => $request->hora_inicio,
             'profesor_id' => $request->profesor,
         ]);
-
-
-        // $materiaProfesor = new ProfesorMateria();
-        // $materiaProfesor->materia_id = $request->materia;
-        // $materiaProfesor->profesor_id = $request->profesor;
-        // $materiaProfesor->save();
 
         return redirect()->route('horarios')->with('success', 'El horario fue creado correctamente');
     }

@@ -13,5 +13,10 @@ class MateriaAlumno extends Model
         'materia_id',
         'alumno_id',
     ];
-}
 
+    // Relacion para poder obtener el nombre de la materia en base al id_materi
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class);
+    }
+}

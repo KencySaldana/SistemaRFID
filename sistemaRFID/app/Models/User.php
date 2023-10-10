@@ -17,6 +17,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $table = 'users';
+
     protected $fillable = [
         'nombre',
         'apellido',
@@ -27,15 +30,13 @@ class User extends Authenticatable
     ];
 
     //Relaciones de eloquent para las tablas Alumnos y profesores
-    public function alumno() {
+    public function alumno()
+    {
         return $this->hasOne(Alumno::class, 'user_id');
     }
 
-    public function profesor() {
+    public function profesor()
+    {
         return $this->hasOne(Profesor::class, 'user_id');
     }
-
-    
-    
-
 }

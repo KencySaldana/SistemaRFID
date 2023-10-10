@@ -15,4 +15,10 @@ class ProfesorMateria extends Model
         'profesor_id',
         'materia_id'
     ];
+
+    // relacion a materias para conseguir el nombre por medio de materia_id
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class, 'materia_id');
+    }
 }

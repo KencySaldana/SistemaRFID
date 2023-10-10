@@ -26,7 +26,7 @@
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300">
                                 <!-- Opciones del select -->
                                 @foreach ($profesores as $profesor)
-                                    <option value="{{ $profesor->id }}">{{ $profesor->user->nombre }}</option>
+                                    <option value="{{ $profesor->user_id }}">{{ $profesor->user->nombre }}</option>
                                 @endforeach
                             </select>
                             <label for="input" class="block text-gray-700 font-bold mb-2">Hora inicio(*):</label>

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Horario extends Model
 {
     use HasFactory;
+
+    protected $table = 'horarios';
+
     //definimos la tabla a la que hace referencia este modelo
     protected $fillable = [
         'dia',
@@ -18,14 +21,12 @@ class Horario extends Model
     ];
 
     public function profesor()
-{
-    return $this->belongsTo(Profesor::class, 'profesor_id');
-}
+    {
+        return $this->belongsTo(Profesor::class, 'profesor_id');
+    }
 
-public function materia()
-{
-    return $this->belongsTo(Materia::class, 'materia_id');
-}
-
-
+    public function materia()
+    {
+        return $this->belongsTo(Materia::class, 'materia_id');
+    }
 }

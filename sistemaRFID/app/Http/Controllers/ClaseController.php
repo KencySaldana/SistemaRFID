@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\AsistenciaMateria;
 use App\Models\MateriaAlumno;
 use App\Models\ProfesorMateria;
+use App\Models\Profesor;
 use Exception;
 use Carbon\Carbon;
 
@@ -22,23 +23,38 @@ use function Symfony\Component\VarDumper\Dumper\esc;
 class ClaseController extends Controller
 {
 
-    // Muestra la tabla de clases del profesor
+    // Muestra la tabla de clases del profesor logueado como profesor
     public function index()
     {
-        // Extraemos el id del profesor
-        $profesor = User::where('id', auth()->user()->id)->first();
 
-        // Buscamos en la tabla profesor_materia las materias que tiene el profesor
-        $materias = ProfesorMateria::where('profesor_id', $profesor->id)->get();
+        // Estraemos el rol de la persona que ingreso
+        $persona_ingresada = User::where('id', auth()->user()->id)->first();
 
-        $clases = Materia::all();
+        // validamos los tres tipos de rol
+        if ($persona_ingresada->rol == 1) {
+            // dd('soy admin');
+            // Buscamos todas las clases
+            $clases = Materia::all();
 
+            return view('tables.tableClase', compact('clases'));
+        } elseif ($persona_ingresada->rol == 2) {
+            // En la tabla de profesores buscamos el id del profesor en el campo user_id
+            $profesor = Profesor::where('user_id', $persona_ingresada->id)->first();
+            // Buscamos en la tabla profesor_materia las materias que tiene el profesor
+            $clases = ProfesorMateria::where('profesor_id', $profesor->id)->get();
 
-        dd($profesor, $materias, $clases); // No registra materias
+            // Finalmente, retornas la vista con los datos necesarios.
+            return view('tables.tableProfesor', compact('clases'));
+        } elseif ($persona_ingresada->rol == 3) {
+            // dd('soy alumno');
 
+            // En la tabla de alumnos buscamos el id del alumno en el campo user_id
+            $alumno = Alumno::where('user_id', $persona_ingresada->id)->first();
 
-        // Retornamos la vista
-        return view('tables.tableClase', compact('clases'));
+            // Buscamos en la tabla materia_alumno las materias que tiene el alumno
+            $clases = MateriaAlumno::where('alumno_id', $alumno->id)->get();
+            return view('tables.tableAlumno', compact('clases'));
+        }
     }
 
     // Metodo para la vista de clases
@@ -53,7 +69,7 @@ class ClaseController extends Controller
     public function registrarClase(Request $request)
     {
 
-        dd($request->all());
+        // dd($request->all()); // Si manda los datos
 
         // Validar los datos
         $request->validate([
@@ -185,7 +201,7 @@ class ClaseController extends Controller
         return redirect()->route('tabla-clases')->with('mensaje', 'Clase eliminada con éxito');
     }
 
-        public function showClass(Materia $clase, Request $request)
+    public function showClass(Materia $clase, Request $request)
     {
         // Obtenemos las fechas de inicio y final de corte que se hará el filtrado del formulario
         $fechaInicio = $request->input('date_start');
@@ -242,8 +258,6 @@ class ClaseController extends Controller
             'porcentajeFaltas' => $porcentajeFaltas,
         ]);
     }
-
-
 
     public function showClasses()
     {

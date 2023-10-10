@@ -9,24 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::table('horarios', function (Blueprint $table) {
-            // Otras columnas en la tabla profesor_horario
-            $table->unsignedBigInteger('profesor_id'); // Esto debe coincidir con la columna en la tabla profesores
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
             $table->foreign('profesor_id')->references('id')->on('profesores')->onDelete('cascade');
-
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::table('horarios', function (Blueprint $table) {
-            //
-            $table->dropColumn('profesor_id');
+            $table->dropForeign(['materia_id']);
+            $table->dropForeign(['profesor_id']);
         });
     }
 };
