@@ -180,7 +180,7 @@ class ClaseController extends Controller
         return redirect()->route('tabla-clases')->with('mensaje', 'Clase eliminada con éxito');
     }
 
-        public function showClass(Materia $clase, Request $request)
+    public function showClass(Materia $clase, Request $request)
     {
         // Obtenemos las fechas de inicio y final de corte que se hará el filtrado del formulario
         $fechaInicio = $request->input('date_start');
@@ -196,18 +196,43 @@ class ClaseController extends Controller
         $asistenciasTotales = count($asistencias); // Total de asistencias
         $asistenciasContadas = 0; // Contador para asistencias (1)
         $faltasContadas = 0; // Contador para faltas (0)
+        // Obtén el número total de días en el rango de fechas
+        $fechasUnicas = $asistencias->pluck('created_at')->unique();
+        $totalDias = $fechasUnicas->count();
+
+        $alumnosUnicos = $asistencias->pluck('alumno_id')->unique();
+        $porcentajeAsistencia = [];
+        foreach ($alumnosUnicos as $alumno) {
+            // Filtra las asistencias del alumno actual
+            $asistenciasAlumno = $asistencias->where('alumno_id', $alumno);
+            
+            // Calcula el número de asistencias del alumno
+            $numAsistenciasAlumno = $asistenciasAlumno->count();
+            
+            // Calcula el porcentaje de asistencia del alumno
+            $porcentaje = ($numAsistenciasAlumno / $totalDias) * 100;
+            
+            // Almacena el porcentaje de asistencia en el diccionario
+            $porcentajeAsistencia[$alumno] = $porcentaje;
+        }        
 
         // Iteramos las asistencias para obtener los alumnos que asistieron y calcular asistencias/faltas
         foreach ($asistencias as $asistencia) {
             $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
             $user = User::where('id', $alumno->user_id)->first();
 
-            // Agregar el usuario y el valor de asistencia al arreglo
+            
+            // Agregar el usuario, el valor de asistencia y el porcentaje individual al arreglo
+            $porcentajeAsistenciaAlumno = isset($porcentajeAsistencia[$alumno->id]) ? $porcentajeAsistencia[$alumno->id] : 0;
+
+            // Agregar el usuario, el valor de asistencia y el porcentaje individual al arreglo
             $alumnosAsistieron[] = [
                 'usuario' => $user,
                 'asistencia' => $asistencia->asistencia,
                 'fecha_asistencia' => $asistencia->created_at->format('Y-m-d'), // Agrega la fecha de asistencia
-                'hora_asistencia' => $asistencia->hora
+                'hora_asistencia' => $asistencia->hora,
+                'porcentaje_asistencia' => $porcentajeAsistenciaAlumno // Agrega el porcentaje de asistencia
+
             ];
 
             // Contar asistencias (1) y faltas (0)
@@ -217,24 +242,26 @@ class ClaseController extends Controller
                 $faltasContadas++;
             }
         }
+        
 
         // condicionamos que no se pueda dividir entre 0
         if ($asistenciasTotales == 0) {
-            $porcentajeAsistencias = 0;
-            $porcentajeFaltas = 0;
+            $porcentajeAsistenciasGrupal = 0;
+            $porcentajeFaltasGrupal = 0;
         } else {
             // Calcular el porcentaje de asistencias y faltas
-            $porcentajeAsistencias = ($asistenciasContadas / $asistenciasTotales) * 100;
-            $porcentajeFaltas = ($faltasContadas / $asistenciasTotales) * 100;
+            $porcentajeAsistenciasGrupal = ($asistenciasContadas / $asistenciasTotales) * 100;
+            $porcentajeFaltasGrupal = ($faltasContadas / $asistenciasTotales) * 100;
         }
+        
 
         return view('class.show', [
             'date_start' => $fechaInicio,
             'date_end' => $fechaFin,
             'alumnosAsistieron' => $alumnosAsistieron,
             'clase' => $clase,
-            'porcentajeAsistencias' => $porcentajeAsistencias,
-            'porcentajeFaltas' => $porcentajeFaltas,
+            'porcentajeAsistenciasGrupal' => $porcentajeAsistenciasGrupal,
+            'porcentajeFaltasGrupal' => $porcentajeFaltasGrupal,
         ]);
     }
 
