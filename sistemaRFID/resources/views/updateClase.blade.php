@@ -24,8 +24,8 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300 custom-select"
                             multiple>
                             <!--    Seleecionar multiples alumnos de la varibales todos_los_alumnos
-                                                                        y mostrarlos en el select
-                                                                -->
+                                                                                y mostrarlos en el select
+                                                                        -->
                             @foreach ($todos_los_alumnos as $alumno)
                                 <option value="{{ $alumno->id }}"
                                     {{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? 'selected' : '' }}>
@@ -80,8 +80,8 @@
                             class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring focus:border-blue-300 custom-select"
                             multiple>
                             <!--    Seleecionar multiples alumnos de la varibales todos_los_alumnos
-                                                                        y mostrarlos en el select
-                                                                -->
+                                                                                y mostrarlos en el select
+                                                                        -->
                             @foreach ($todos_los_alumnos as $alumno)
                                 <option value="{{ $alumno->id }}"
                                     {{ in_array($alumno->id, $clase->alumnos->pluck('id')->toArray()) ? 'selected' : '' }}>

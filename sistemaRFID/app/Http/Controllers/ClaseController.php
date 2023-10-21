@@ -193,6 +193,7 @@ class ClaseController extends Controller
     // Metodo para eliminar una clase
     public function eliminarClase($id)
     {
+        // dd($id);
         // Buscamos la clase
         $clase = Materia::find($id);
         // Eliminamos la clase
@@ -226,23 +227,23 @@ class ClaseController extends Controller
         foreach ($alumnosUnicos as $alumno) {
             // Filtra las asistencias del alumno actual
             $asistenciasAlumno = $asistencias->where('alumno_id', $alumno);
-            
+
             // Calcula el número de asistencias del alumno
             $numAsistenciasAlumno = $asistenciasAlumno->count();
-            
+
             // Calcula el porcentaje de asistencia del alumno
             $porcentaje = ($numAsistenciasAlumno / $totalDias) * 100;
-            
+
             // Almacena el porcentaje de asistencia en el diccionario
             $porcentajeAsistencia[$alumno] = $porcentaje;
-        }        
+        }
 
         // Iteramos las asistencias para obtener los alumnos que asistieron y calcular asistencias/faltas
         foreach ($asistencias as $asistencia) {
             $alumno = Alumno::where('id', $asistencia->alumno_id)->first();
             $user = User::where('id', $alumno->user_id)->first();
 
-            
+
             // Agregar el usuario, el valor de asistencia y el porcentaje individual al arreglo
             $porcentajeAsistenciaAlumno = isset($porcentajeAsistencia[$alumno->id]) ? $porcentajeAsistencia[$alumno->id] : 0;
 
@@ -263,7 +264,7 @@ class ClaseController extends Controller
                 $faltasContadas++;
             }
         }
-        
+
 
         // condicionamos que no se pueda dividir entre 0
         if ($asistenciasTotales == 0) {
@@ -274,7 +275,7 @@ class ClaseController extends Controller
             $porcentajeAsistenciasGrupal = ($asistenciasContadas / $asistenciasTotales) * 100;
             $porcentajeFaltasGrupal = ($faltasContadas / $asistenciasTotales) * 100;
         }
-        
+
 
         return view('class.show', [
             'date_start' => $fechaInicio,
